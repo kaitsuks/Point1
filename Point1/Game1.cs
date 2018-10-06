@@ -11,6 +11,14 @@ namespace Point1
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D pallo;
+        Vector2 paikka;
+        int n = 1;
+        int pallonLeveys;
+        int pallonKorkeus;   
+        SpriteFont omaFontti;
+        int naytonLeveys;
+        int naytonKorkeus;
 
         public Game1()
         {
@@ -27,6 +35,8 @@ namespace Point1
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            paikka = new Vector2(100f, 100f);
+            
 
             base.Initialize();
         }
@@ -39,8 +49,30 @@ namespace Point1
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            naytonLeveys = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            naytonKorkeus = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            //aseta peli-ikkunalle koko tarvittaessa
+            if (naytonLeveys >= 800)
+            {
+                naytonLeveys = 800;
+            }
+            if (naytonKorkeus >= 600)
+            {
+                naytonKorkeus = 600;
+            }
+            graphics.PreferredBackBufferWidth = naytonLeveys;
+            graphics.PreferredBackBufferHeight = naytonKorkeus;
+            graphics.ApplyChanges();
 
             // TODO: use this.Content to load your game content here
+            pallo = Content.Load<Texture2D>("ad_board");
+            //pallonLeveys = pallo.Bounds.Width;
+            //pallonKorkeus = pallo.Bounds.Height;
+            //tai
+            pallonLeveys = pallo.Width;
+            pallonKorkeus = pallo.Height;
+            //lataa fontti
+            omaFontti = Content.Load<SpriteFont>("Arial20");
         }
 
         /// <summary>
@@ -63,6 +95,9 @@ namespace Point1
                 Exit();
 
             // TODO: Add your update logic here
+            paikka.X+=n;
+            if (paikka.X > 300) n = -n;
+            if (paikka.X < 100) n = -n;
 
             base.Update(gameTime);
         }
@@ -76,6 +111,14 @@ namespace Point1
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            spriteBatch.Draw(pallo, paikka, Color.White);
+            //spriteBatch.Draw()
+            //pallo.Bounds.Width
+            string viesti = "Tervehdys! "+ "leveys= " + pallonLeveys.ToString() + " korkeus= " + pallonLeveys.ToString();
+            Vector2 alkupaikka = omaFontti.MeasureString(viesti);
+            spriteBatch.DrawString(omaFontti, viesti, new Vector2((naytonLeveys - alkupaikka.X) / 2, naytonKorkeus / 2), Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
