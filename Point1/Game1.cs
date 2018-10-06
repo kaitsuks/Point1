@@ -34,7 +34,7 @@ namespace Point1
         Random rnd;
         float xpoint = 0f;
         float ypoint = 0f;
-        float rot = 0f;
+        float rot = 0f; //in degrees
 
         int month;
         int dice;
@@ -195,18 +195,20 @@ namespace Point1
 
             if (newKeyboardState.IsKeyDown(Keys.R))
             {
-                rot -= 0.1f;
+                rot -= 30f; //degrees
             }
 
             if (newKeyboardState.IsKeyDown(Keys.E))
             {
-                rot += 0.1f;
+                rot += 30f; //degrees
             }
 
             //newKeyboardState.IsKeyDown(Keys.???)
             oldKeyboardState = newKeyboardState;   //tallenna vanha tila, jos tarpeen    
             //Random rnd = new Random();
             n = rnd.Next(6);
+            signx = rnd.Next(100, 300);
+            signy = rnd.Next(10, 200);
 
 
             base.Update(gameTime);
@@ -244,7 +246,7 @@ float layerDepth)
             paikka, //Vector2 position,
             null, //Rectangle? SourceRectangle, nullable
             Color.White, //Color color,
-            rot, //float rotation,
+            MathHelper.ToRadians(rot), //float rotation,
             //new Vector2(xpoint, ypoint), //Vector2 origin,
             new Vector2(pallo.Width/2, pallo.Height/2),
             0.1f, //float scale,
@@ -255,7 +257,7 @@ float layerDepth)
             Vector2 alkupaikka = omaFontti.MeasureString(viesti);
             spriteBatch.DrawString(omaFontti, viesti, new Vector2((naytonLeveys - alkupaikka.X) / 2, naytonKorkeus / 2), Color.White);
 
-            //spriteBatch.Draw(laatta, new Vector2(300, 300), Color.Gold);
+            spriteBatch.Draw(laatta, new Vector2(signx, signy), Color.Gold);
             //spriteBatch.Draw(sign, new Rectangle(signx, signy, signxkoko, signykoko), Color.AntiqueWhite);
             //spriteBatch.Draw(pallo, new Rectangle(0, 0, 600, 400), new Rectangle(0, 0, 64, 36), Color.White);
             //spriteBatch.Draw(pallo, new Vector2(0f, 0f), new Rectangle(0, 0, 100, 100), Color.White, 0.3f, new Vector2(0,0), 0.0f, null, 1f);
