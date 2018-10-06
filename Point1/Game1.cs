@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+//using Random = Microsoft.Xna.Framework.Random;
+using System;
 
 namespace Point1
 {
@@ -9,21 +11,40 @@ namespace Point1
     /// </summary>
     public class Game1 : Game
     {
+        #region luokkamuuttujat
+
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D pallo;
-        Vector2 paikka;
-        int n = 1;
-        int pallonLeveys;
-        int pallonKorkeus;   
-        SpriteFont omaFontti;
+        Texture2D pallo; // tai mikä vain kuvan nimi
+        Texture2D sign; // tai mikä vain kuvan nimi
+        Texture2D laatta; //
+        Vector2 paikka; // sijainnin koordinaatit
+        int n = 8; // kokonaislukumuuttuja sijainnin X-koordinaatin muuttamiseksi
+        int m = 1; // kokonaislukumuuttuja sijainnin Y-koordinaatin muuttamiseksi
+        int yynhidastaja = 0; // 
+        int yynhidastajanraja = 6; //
+        int signy, signx;
+        int signykoko;
+        int signxkoko;
         int naytonLeveys;
         int naytonKorkeus;
+        private KeyboardState oldKeyboardState;
+        SpriteFont omaFontti;
+        Ritari sankari;
+        Random rnd;
+
+        int month;
+        int dice;
+        int card;
+
+        #endregion
+
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            
         }
 
         /// <summary>
@@ -35,8 +56,32 @@ namespace Point1
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            paikka = new Vector2(100f, 100f);
-            
+            paikka = new Vector2(0f, 0f);
+            sankari = new Ritari();
+            signy = 300; signx = 100;
+            signykoko = 500;
+            signxkoko = 100;
+
+            naytonLeveys = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+            naytonKorkeus = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+            //aseta peli-ikkunalle koko tarvittaessa
+            if (naytonLeveys >= 600)
+            {
+                naytonLeveys = 600;
+            }
+            if (naytonKorkeus >= 400)
+            {
+                naytonKorkeus = 400;
+            }
+            graphics.PreferredBackBufferWidth = naytonLeveys;
+            graphics.PreferredBackBufferHeight = naytonKorkeus;
+            graphics.ApplyChanges();
+
+            rnd = new Random();
+            month = rnd.Next(1, 13); // creates a number between 1 and 12
+            dice = rnd.Next(1, 7);   // creates a number between 1 and 6
+            card = rnd.Next(52);     // creates a number between 0 and 51
+
 
             base.Initialize();
         }
@@ -49,30 +94,14 @@ namespace Point1
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            naytonLeveys = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-            naytonKorkeus = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-            //aseta peli-ikkunalle koko tarvittaessa
-            if (naytonLeveys >= 800)
-            {
-                naytonLeveys = 800;
-            }
-            if (naytonKorkeus >= 600)
-            {
-                naytonKorkeus = 600;
-            }
-            graphics.PreferredBackBufferWidth = naytonLeveys;
-            graphics.PreferredBackBufferHeight = naytonKorkeus;
-            graphics.ApplyChanges();
 
             // TODO: use this.Content to load your game content here
             pallo = Content.Load<Texture2D>("ad_board");
-            //pallonLeveys = pallo.Bounds.Width;
-            //pallonKorkeus = pallo.Bounds.Height;
-            //tai
-            pallonLeveys = pallo.Width;
-            pallonKorkeus = pallo.Height;
+            sign = Content.Load<Texture2D>("antjeankkuti3d");
+            laatta = Content.Load<Texture2D>("boat2");
             //lataa fontti
             omaFontti = Content.Load<SpriteFont>("Arial20");
+
         }
 
         /// <summary>
@@ -95,9 +124,57 @@ namespace Point1
                 Exit();
 
             // TODO: Add your update logic here
-            paikka.X+=n;
-            if (paikka.X > 300) n = -n;
-            if (paikka.X < 100) n = -n;
+            //paikka.X += n;
+            //if (paikka.X > 800) n = -n;
+            //if (paikka.X < 0) n = -n;
+
+            yynhidastaja++;
+            if (yynhidastaja > yynhidastajanraja)
+            {
+                paikka.Y += m;
+                if (paikka.Y > 440) m = -m;
+                if (paikka.Y < 0) m = -m;
+                yynhidastaja = 0;
+            }
+
+            KeyboardState newKeyboardState = Keyboard.GetState();
+            //käsittelee näppäimistön tilan                           
+            if (newKeyboardState.IsKeyDown(Keys.Left))
+            {
+                //hahmo.LiikuVasemmalle);
+                paikka.X -= n;
+                //if (paikka.X > 800) n = -n;
+                //if (paikka.X < 0) n = -n;
+            }
+            if (newKeyboardState.IsKeyDown(Keys.Right))
+            {
+                //hahmo.LiikuOikealle();
+                paikka.X += n;
+                //if (paikka.X > 800) n = -n;
+                //if (paikka.X < 0) n = -n;
+            }
+
+            if (newKeyboardState.IsKeyDown(Keys.Up))
+            {
+                //hahmo.LiikuVasemmalle);
+                paikka.Y -= n;
+                //if (paikka.X > 800) n = -n;
+                //if (paikka.X < 0) n = -n;
+            }
+
+            if (newKeyboardState.IsKeyDown(Keys.Down))
+            {
+                //hahmo.LiikuVasemmalle);
+                paikka.Y += n;
+                //if (paikka.X > 800) n = -n;
+                //if (paikka.X < 0) n = -n;
+            }
+
+            //newKeyboardState.IsKeyDown(Keys.???)
+            oldKeyboardState = newKeyboardState;   //tallenna vanha tila, jos tarpeen    
+            //Random rnd = new Random();
+            n = rnd.Next(6);
+
 
             base.Update(gameTime);
         }
@@ -108,17 +185,28 @@ namespace Point1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            // Taustan väri Color.Gold - Mikan mielestä paras
+            GraphicsDevice.Clear(Color.Gold);
+            
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            spriteBatch.Draw(pallo, paikka, Color.White);
-            //spriteBatch.Draw()
-            //pallo.Bounds.Width
-            string viesti = "Tervehdys! "+ "leveys= " + pallonLeveys.ToString() + " korkeus= " + pallonLeveys.ToString();
+            // Kokeillut värit: Gold, Fuchsia...
+            //spriteBatch.Draw(pallo, paikka, Color.Gold);
+            //spriteBatch.Draw(sign, new Vector2(100,100), Color.White);
+            spriteBatch.Draw(pallo, paikka, Color.Gold);
+            string viesti = "Tervehdys!";
             Vector2 alkupaikka = omaFontti.MeasureString(viesti);
             spriteBatch.DrawString(omaFontti, viesti, new Vector2((naytonLeveys - alkupaikka.X) / 2, naytonKorkeus / 2), Color.White);
+
+            //spriteBatch.Draw(laatta, new Vector2(300, 300), Color.Gold);
+            //spriteBatch.Draw(sign, new Rectangle(signx, signy, signxkoko, signykoko), Color.AntiqueWhite);
+            //spriteBatch.Draw(pallo, new Rectangle(0, 0, 600, 400), new Rectangle(0, 0, 64, 36), Color.White);
+            //spriteBatch.Draw(pallo, new Vector2(0f, 0f), new Rectangle(0, 0, 100, 100), Color.White, 0.3f, new Vector2(0,0), 0.0f, null, 1f);
+            //spriteBatch.Draw(pallo, new Vector2(0f, 0f), new Rectangle(0,0,100,100), Color.Black, 0.0f, new Vector2(1,1), 1.0f, SpriteEffects.None, 0f);
+            //spriteBatch.Draw()
             spriteBatch.End();
+
 
             base.Draw(gameTime);
         }
