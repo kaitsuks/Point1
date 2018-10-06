@@ -32,6 +32,9 @@ namespace Point1
         SpriteFont omaFontti;
         Ritari sankari;
         Random rnd;
+        float xpoint = 0f;
+        float ypoint = 0f;
+        float rot = 0f;
 
         int month;
         int dice;
@@ -96,8 +99,8 @@ namespace Point1
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            pallo = Content.Load<Texture2D>("ad_board");
-            sign = Content.Load<Texture2D>("antjeankkuti3d");
+            //pallo = Content.Load<Texture2D>("ad_board");
+            pallo = Content.Load<Texture2D>("antjeankkuti3d");
             laatta = Content.Load<Texture2D>("boat2");
             //lataa fontti
             omaFontti = Content.Load<SpriteFont>("Arial20");
@@ -170,6 +173,36 @@ namespace Point1
                 //if (paikka.X < 0) n = -n;
             }
 
+            if (newKeyboardState.IsKeyDown(Keys.X))
+            {
+                xpoint += 10f;
+            }
+
+            if (newKeyboardState.IsKeyDown(Keys.Z))
+            {
+                xpoint -= 10f;
+            }
+
+            if (newKeyboardState.IsKeyDown(Keys.Y))
+            {
+                ypoint += 10f;
+            }
+
+            if (newKeyboardState.IsKeyDown(Keys.T))
+            {
+                xpoint -= 10f;
+            }
+
+            if (newKeyboardState.IsKeyDown(Keys.R))
+            {
+                rot -= 0.1f;
+            }
+
+            if (newKeyboardState.IsKeyDown(Keys.E))
+            {
+                rot += 0.1f;
+            }
+
             //newKeyboardState.IsKeyDown(Keys.???)
             oldKeyboardState = newKeyboardState;   //tallenna vanha tila, jos tarpeen    
             //Random rnd = new Random();
@@ -194,7 +227,30 @@ namespace Point1
             // Kokeillut värit: Gold, Fuchsia...
             //spriteBatch.Draw(pallo, paikka, Color.Gold);
             //spriteBatch.Draw(sign, new Vector2(100,100), Color.White);
-            spriteBatch.Draw(pallo, paikka, Color.Gold);
+            //spriteBatch.Draw(pallo, paikka, Color.Gold);
+            /*
+            (Texture2D texture,
+Vector2 position,
+Rectangle? SourceRectangle, nullable
+Color color,
+float rotation,
+Vector2 origin,
+float scale,
+SpriteEffects effects,
+float layerDepth)
+*/
+
+            spriteBatch.Draw(pallo, //Texture2D texture,
+            paikka, //Vector2 position,
+            null, //Rectangle? SourceRectangle, nullable
+            Color.White, //Color color,
+            rot, //float rotation,
+            //new Vector2(xpoint, ypoint), //Vector2 origin,
+            new Vector2(pallo.Width/2, pallo.Height/2),
+            0.1f, //float scale,
+            SpriteEffects.None, //SpriteEffects effects,
+            0f); //float layerDepth)
+           
             string viesti = "Tervehdys!";
             Vector2 alkupaikka = omaFontti.MeasureString(viesti);
             spriteBatch.DrawString(omaFontti, viesti, new Vector2((naytonLeveys - alkupaikka.X) / 2, naytonKorkeus / 2), Color.White);
