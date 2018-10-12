@@ -1,7 +1,6 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-//using Random = Microsoft.Xna.Framework.Random;
 using System;
 
 namespace Point1
@@ -15,30 +14,46 @@ namespace Point1
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D pallo; // tai mikä vain kuvan nimi
-        Texture2D sign; // tai mikä vain kuvan nimi
-        Texture2D laatta; //
+
+        Texture2D prinsessa; //spritesheet, 4 kuvaa a 80x120
+        Texture2D ritari_anim; //spritesheet, 4 kuvaa a 80x120
         Vector2 paikka; // sijainnin koordinaatit
+
+        /*  //nämä ei käytössä vielä
         int n = 8; // kokonaislukumuuttuja sijainnin X-koordinaatin muuttamiseksi
         int m = 1; // kokonaislukumuuttuja sijainnin Y-koordinaatin muuttamiseksi
         int yynhidastaja = 0; // 
         int yynhidastajanraja = 6; //
-        int signy, signx;
-        int signykoko;
-        int signxkoko;
+        //*/
+
         int naytonLeveys;
         int naytonKorkeus;
         private KeyboardState oldKeyboardState;
         SpriteFont omaFontti;
-        Ritari sankari;
-        Random rnd;
-        float xpoint = 0f;
-        float ypoint = 0f;
-        float rot = 0f; //in degrees
 
-        int month;
-        int dice;
-        int card;
+        Ritari sankari; // ei käytössä vielä
+
+        int ritari_x = 0; //spritesheet-animaation muuttuv koordinaatti
+
+        //animaaation hidastuslaskurin muuttujat
+        int ritarinHidastaja;
+        int ritarinHidastajaRaja = 5;
+
+        //liikkumisen tilamuuttujat
+        bool eteenpain = true; //ohjaus F-näppäin
+        bool peruutus = false; // ohjaus B-näppäin
+        bool liikkeella = false; //true kun vasen tai oikea nuolinäppäin on painettuna
+
+        int n = 1; //nopeusmuuttuja
+
+        Random rnd; //satunnaisluku
+
+        //rotaation kääntöpisteen arvot, ohjataan X, Z, Y ja T näppäimillä
+        //aluksi keskipiste 80x120 kokoiselle osaspritelle
+        float xpoint = 40f; 
+        float ypoint = 60f;
+
+        float rot = 0f; //asteina, ohjataan R ja E näppäimillä
 
         #endregion
 
@@ -47,7 +62,7 @@ namespace Point1
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            
+
         }
 
         /// <summary>
@@ -59,15 +74,14 @@ namespace Point1
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            paikka = new Vector2(0f, 0f);
+            paikka = new Vector2(300f, 200f);
             sankari = new Ritari();
-            signy = 300; signx = 100;
-            signykoko = 500;
-            signxkoko = 100;
+
 
             naytonLeveys = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             naytonKorkeus = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             //aseta peli-ikkunalle koko tarvittaessa
+
             if (naytonLeveys >= 600)
             {
                 naytonLeveys = 600;
@@ -80,10 +94,7 @@ namespace Point1
             graphics.PreferredBackBufferHeight = naytonKorkeus;
             graphics.ApplyChanges();
 
-            rnd = new Random();
-            month = rnd.Next(1, 13); // creates a number between 1 and 12
-            dice = rnd.Next(1, 7);   // creates a number between 1 and 6
-            card = rnd.Next(52);     // creates a number between 0 and 51
+            rnd = new Random(); //luodaan satunnaisluku
 
 
             base.Initialize();
@@ -99,9 +110,9 @@ namespace Point1
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
-            //pallo = Content.Load<Texture2D>("ad_board");
-            pallo = Content.Load<Texture2D>("antjeankkuti3d");
-            laatta = Content.Load<Texture2D>("boat2");
+
+            prinsessa = Content.Load<Texture2D>("Prinsessa_animaatio1");
+            ritari_anim = Content.Load<Texture2D>("RitariKavely1_4kuvaa");
             //lataa fontti
             omaFontti = Content.Load<SpriteFont>("Arial20");
 
@@ -126,53 +137,66 @@ namespace Point1
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
-            //paikka.X += n;
-            //if (paikka.X > 800) n = -n;
-            //if (paikka.X < 0) n = -n;
 
-            yynhidastaja++;
-            if (yynhidastaja > yynhidastajanraja)
+            ritarinHidastaja++;
+            if (!peruutus)
             {
-                paikka.Y += m;
-                if (paikka.Y > 440) m = -m;
-                if (paikka.Y < 0) m = -m;
-                yynhidastaja = 0;
+                if (ritarinHidastaja > ritarinHidastajaRaja)
+                {
+                    ritari_x -= 80;
+                    if (ritari_x < 80) ritari_x = 320;
+                    ritarinHidastaja = 0;
+                }
             }
+            else
+            ///*
+            {
+                if (ritarinHidastaja > ritarinHidastajaRaja)
+                {
+                    ritari_x += 80;
+                    if (ritari_x > 320) ritari_x = 80;
+                    ritarinHidastaja = 0;
+                }
+            }
+            //*/
+
 
             KeyboardState newKeyboardState = Keyboard.GetState();
-            //käsittelee näppäimistön tilan                           
+            //käsittelee näppäimistön tilan   
+
             if (newKeyboardState.IsKeyDown(Keys.Left))
             {
-                //hahmo.LiikuVasemmalle);
-                paikka.X -= n;
-                //if (paikka.X > 800) n = -n;
-                //if (paikka.X < 0) n = -n;
+                //hahmo.LiikuVasemmalle
+                liikkeella = true;
+                if (!peruutus) { paikka.X -= n; eteenpain = true; }
+                if (peruutus) { paikka.X -= n; eteenpain = false; }
+
             }
+            else
+                liikkeella = false;
+
             if (newKeyboardState.IsKeyDown(Keys.Right))
             {
-                //hahmo.LiikuOikealle();
-                paikka.X += n;
-                //if (paikka.X > 800) n = -n;
-                //if (paikka.X < 0) n = -n;
-            }
+                //hahmo.LiikuOikealle
+                liikkeella = true;
+                if (!peruutus) { paikka.X += n; eteenpain = true; }
+                if (peruutus) { paikka.X += n; eteenpain = false; }
 
-            if (newKeyboardState.IsKeyDown(Keys.Up))
+            }
+            else
+                liikkeella = false;
+
+            if (newKeyboardState.IsKeyDown(Keys.B))
             {
-                //hahmo.LiikuVasemmalle);
-                paikka.Y -= n;
-                //if (paikka.X > 800) n = -n;
-                //if (paikka.X < 0) n = -n;
+                peruutus = true;
             }
 
-            if (newKeyboardState.IsKeyDown(Keys.Down))
+            if (newKeyboardState.IsKeyDown(Keys.F))
             {
-                //hahmo.LiikuVasemmalle);
-                paikka.Y += n;
-                //if (paikka.X > 800) n = -n;
-                //if (paikka.X < 0) n = -n;
+                peruutus = false;
             }
 
+            //rotaationäppäimet
             if (newKeyboardState.IsKeyDown(Keys.X))
             {
                 xpoint += 10f;
@@ -195,20 +219,22 @@ namespace Point1
 
             if (newKeyboardState.IsKeyDown(Keys.R))
             {
-                rot -= 30f; //degrees
+                rot -= 3f; //degrees
             }
 
             if (newKeyboardState.IsKeyDown(Keys.E))
             {
-                rot += 30f; //degrees
+                rot += 3f; //degrees
             }
 
-            //newKeyboardState.IsKeyDown(Keys.???)
-            oldKeyboardState = newKeyboardState;   //tallenna vanha tila, jos tarpeen    
-            //Random rnd = new Random();
-            n = rnd.Next(6);
-            signx = rnd.Next(100, 300);
-            signy = rnd.Next(10, 200);
+            oldKeyboardState = newKeyboardState;   //tallenna vanha tila, jos tarpeen 
+
+            //muuta logiikkaa
+
+            int kortti = rnd.Next(52);     // tilapäismuuttuja kortti saa arvon välillä 0 - 51
+
+
+
 
 
             base.Update(gameTime);
@@ -220,49 +246,36 @@ namespace Point1
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            // Taustan väri Color.Gold - Mikan mielestä paras
-            GraphicsDevice.Clear(Color.Gold);
-            
+            // Taustan väri 
+            GraphicsDevice.Clear(Color.Black);
+
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            // Kokeillut värit: Gold, Fuchsia...
-            //spriteBatch.Draw(pallo, paikka, Color.Gold);
-            //spriteBatch.Draw(sign, new Vector2(100,100), Color.White);
-            //spriteBatch.Draw(pallo, paikka, Color.Gold);
-            /*
-            (Texture2D texture,
-Vector2 position,
-Rectangle? SourceRectangle, nullable
-Color color,
-float rotation,
-Vector2 origin,
-float scale,
-SpriteEffects effects,
-float layerDepth)
-*/
 
-            spriteBatch.Draw(pallo, //Texture2D texture,
-            paikka, //Vector2 position,
-            null, //Rectangle? SourceRectangle, nullable
-            Color.White, //Color color,
-            MathHelper.ToRadians(rot), //float rotation,
-            //new Vector2(xpoint, ypoint), //Vector2 origin,
-            new Vector2(pallo.Width/2, pallo.Height/2),
-            0.1f, //float scale,
-            SpriteEffects.None, //SpriteEffects effects,
-            0f); //float layerDepth)
-           
+            //spriteBatch.Draw(ritari_anim, paikka, Color.White); //testattu että kuva näkyy yleensä
             string viesti = "Tervehdys!";
             Vector2 alkupaikka = omaFontti.MeasureString(viesti);
-            spriteBatch.DrawString(omaFontti, viesti, new Vector2((naytonLeveys - alkupaikka.X) / 2, naytonKorkeus / 2), Color.White);
+            //spriteBatch.DrawString(omaFontti, viesti, new Vector2((naytonLeveys - alkupaikka.X) / 2, naytonKorkeus / 2), Color.White); //tekstin tulostus
 
-            spriteBatch.Draw(laatta, new Vector2(signx, signy), Color.Gold);
-            //spriteBatch.Draw(sign, new Rectangle(signx, signy, signxkoko, signykoko), Color.AntiqueWhite);
-            //spriteBatch.Draw(pallo, new Rectangle(0, 0, 600, 400), new Rectangle(0, 0, 64, 36), Color.White);
-            //spriteBatch.Draw(pallo, new Vector2(0f, 0f), new Rectangle(0, 0, 100, 100), Color.White, 0.3f, new Vector2(0,0), 0.0f, null, 1f);
-            //spriteBatch.Draw(pallo, new Vector2(0f, 0f), new Rectangle(0,0,100,100), Color.Black, 0.0f, new Vector2(1,1), 1.0f, SpriteEffects.None, 0f);
-            //spriteBatch.Draw()
+
+            //spriteBatch.Draw(ritari_anim, new Rectangle((int) paikka.X, (int) paikka.Y, 160, 240), new Rectangle(ritari_x - 80, 0, 80, 120), Color.White); //koko suurennettu 2-kertaiseksi
+
+            //spriteBatch.Draw(ritari_anim, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White); //spritetsheet-animaatio yksinkertaisesti
+            if (liikkeella)
+            {
+                if (eteenpain)
+                    spriteBatch.Draw(ritari_anim, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White,
+                        MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), 1f, SpriteEffects.FlipHorizontally, 0f);
+                if (!eteenpain)
+                    spriteBatch.Draw(ritari_anim, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White,
+                        MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), 1f, SpriteEffects.None, 0f);
+            }
+            else
+                spriteBatch.Draw(ritari_anim, paikka, new Rectangle(0, 0, 80, 120), Color.White,
+                        MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), 1f, SpriteEffects.None, 0f);
+
+
             spriteBatch.End();
 
 

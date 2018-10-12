@@ -57,14 +57,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\ad_board.png">
+    <Content Include="Content\Prinsessa_animaatio1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\antjeankkuti3d.jpg" />
-    <Content Include="Content\ball_green.png">
+    <Content Include="Content\RitariKavely1_4kuvaa.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Content\boat2.png" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
