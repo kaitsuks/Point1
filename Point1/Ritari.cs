@@ -25,17 +25,20 @@ namespace Point1
         int ritari_x = 0; //spritesheet-animaation muuttuv koordinaatti
         //animaaation hidastuslaskurin muuttujat
         int ritarinHidastaja;
-        int ritarinHidastajaRaja = 5;
+        int ritarinHidastajaRaja = 4;
         //liikkumisen tilamuuttujat
         bool eteenpain = true; //ohjaus F-näppäin
         bool peruutus = false; // ohjaus B-näppäin
         bool liikkeella = false; //true kun vasen tai oikea nuolinäppäin on painettuna
+        bool ylos = false;
+        bool alas = false;
         int n = 1; //nopeusmuuttuja
         //rotaation kääntöpisteen arvot, ohjataan X, Z, Y ja T näppäimillä
         //aluksi keskipiste 80x120 kokoiselle osaspritelle
         float xpoint = 40f;
         float ypoint = 60f;
         float rot = 0f; //asteina, ohjataan R ja E näppäimillä
+        float skaala = 1f;
 
      
 
@@ -50,7 +53,7 @@ namespace Point1
             prinsessa = new Texture2D(GraphicsDevice, 800, 600);
             ritari_anim = new Texture2D(GraphicsDevice, 800, 600);
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            paikka = new Vector2(300f, 300f);
+            paikka = new Vector2(300f, 580f);
         }
 
         public void Liiku()
@@ -63,7 +66,7 @@ namespace Point1
         {
             
             ritarinHidastaja++;
-            if (!peruutus)
+            if (eteenpain)
             {
                 if (ritarinHidastaja > ritarinHidastajaRaja)
                 {
@@ -88,6 +91,10 @@ namespace Point1
             KeyboardState newKeyboardState = Keyboard.GetState();
             //käsittelee näppäimistön tilan   
 
+            liikkeella = false;
+            ylos = false;
+            alas = false;
+
             if (newKeyboardState.IsKeyDown(Keys.Left))
             {
                 //hahmo.LiikuVasemmalle
@@ -96,8 +103,8 @@ namespace Point1
                 if (peruutus) { paikka.X -= n; eteenpain = false; }
 
             }
-            else
-                liikkeella = false;
+            
+                
 
             if (newKeyboardState.IsKeyDown(Keys.Right))
             {
@@ -107,8 +114,7 @@ namespace Point1
                 if (peruutus) { paikka.X += n; eteenpain = false; }
 
             }
-            else
-                liikkeella = false;
+            
 
             if (newKeyboardState.IsKeyDown(Keys.B))
             {
@@ -152,17 +158,42 @@ namespace Point1
             }
 
             //nopeus
-            if (newKeyboardState.IsKeyDown(Keys.Up))
+            if (newKeyboardState.IsKeyDown(Keys.M))
             {
-                n += 1;
-                if (n > 10) n = 10;
+                if (ritarinHidastaja == 0)
+                {
+                    n += 1; ritarinHidastajaRaja--;
+                    if (n > 10) { n = 10; ritarinHidastajaRaja = 0; }
+                }
             }
 
             //nopeus
+            if (newKeyboardState.IsKeyDown(Keys.L))
+            {
+                if (ritarinHidastaja == 0)
+                {
+                    n -= 1; ritarinHidastajaRaja++;
+                    if (n < 0) { n = 0; ritarinHidastajaRaja = 5; }
+                }
+            }
+            //ylös
+            if (newKeyboardState.IsKeyDown(Keys.Up))
+            {
+                paikka.Y -= 1 * n;
+                if (paikka.Y < 300) paikka.Y = 300;
+                ylos = true;
+                skaala -= 0.001f * n;
+                if (skaala < 0.7f) skaala = 0.7f;
+            }
+
+            //alas
             if (newKeyboardState.IsKeyDown(Keys.Down))
             {
-                n -= 1;
-                if (n < 0) n = 0;
+                paikka.Y += 1 * n;
+                if (paikka.Y > 600) paikka.Y = 600;
+                alas = true;
+                skaala += 0.001f * n;
+                if (skaala > 1f) skaala = 1f; 
             }
 
             oldKeyboardState = newKeyboardState;
@@ -185,18 +216,20 @@ namespace Point1
             //spriteBatch.Draw(ritari_anim, new Rectangle((int) paikka.X, (int) paikka.Y, 160, 240), new Rectangle(ritari_x - 80, 0, 80, 120), Color.White); //koko suurennettu 2-kertaiseksi
 
             //spriteBatch.Draw(ritari_anim, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White); //spritetsheet-animaatio yksinkertaisesti
-            if (liikkeella)
+            if (liikkeella || ylos || alas)
             {
                 if (eteenpain)
-                    spriteBatch.Draw(ritari_anim, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White,
-                        MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), 1f, SpriteEffects.FlipHorizontally, 0f);
+                    spriteBatch.Draw(ritari_anim, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White, MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), 2 * skaala, SpriteEffects.FlipHorizontally, 0f);
                 if (!eteenpain)
-                    spriteBatch.Draw(ritari_anim, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White,
-                        MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), 1f, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(ritari_anim, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White, MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), 2 * skaala, SpriteEffects.None, 0f);
             }
+            else if (eteenpain)
+                spriteBatch.Draw(ritari_anim, paikka, new Rectangle(0, 0, 80, 120), Color.White,
+                        MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), 2 * skaala, SpriteEffects.FlipHorizontally, 0f);
             else
                 spriteBatch.Draw(ritari_anim, paikka, new Rectangle(0, 0, 80, 120), Color.White,
-                        MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), 1f, SpriteEffects.None, 0f);
+                        MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), 2 * skaala, SpriteEffects.None, 0f);
+
 
 
             spriteBatch.End();

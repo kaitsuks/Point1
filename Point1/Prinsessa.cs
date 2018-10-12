@@ -43,7 +43,7 @@ namespace Point1
         {
             prinsessa = new Texture2D(GraphicsDevice, 800, 600);
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            paikka = new Vector2(100f, 100f);
+            paikka = new Vector2(100f, 257f);
         }
 
         public void Liiku()
