@@ -20,7 +20,7 @@ namespace Point1
         Vector2 paikka; // sijainnin koordinaatit
 
         /*  //nämä ei käytössä vielä
-        int n = 8; // kokonaislukumuuttuja sijainnin X-koordinaatin muuttamiseksi
+        
         int m = 1; // kokonaislukumuuttuja sijainnin Y-koordinaatin muuttamiseksi
         int yynhidastaja = 0; // 
         int yynhidastajanraja = 6; //
@@ -31,30 +31,28 @@ namespace Point1
         private KeyboardState oldKeyboardState;
         SpriteFont omaFontti;
 
-        Ritari sankari; // ei käytössä vielä
-
+        Ritari sankari;
+        Prinsessa sankaritar;
+        /*
         int ritari_x = 0; //spritesheet-animaation muuttuv koordinaatti
-
         //animaaation hidastuslaskurin muuttujat
         int ritarinHidastaja;
         int ritarinHidastajaRaja = 5;
-
         //liikkumisen tilamuuttujat
         bool eteenpain = true; //ohjaus F-näppäin
         bool peruutus = false; // ohjaus B-näppäin
         bool liikkeella = false; //true kun vasen tai oikea nuolinäppäin on painettuna
-
         int n = 1; //nopeusmuuttuja
+        */
 
         Random rnd; //satunnaisluku
-
+        /*
         //rotaation kääntöpisteen arvot, ohjataan X, Z, Y ja T näppäimillä
         //aluksi keskipiste 80x120 kokoiselle osaspritelle
         float xpoint = 40f; 
         float ypoint = 60f;
-
         float rot = 0f; //asteina, ohjataan R ja E näppäimillä
-
+        */
         #endregion
 
 
@@ -75,8 +73,8 @@ namespace Point1
         {
             // TODO: Add your initialization logic here
             paikka = new Vector2(300f, 200f);
-            sankari = new Ritari();
-
+            sankari = new Ritari(this); // drawable game component voidaan luoda vasta tässä
+            sankaritar = new Prinsessa(this);
 
             naytonLeveys = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             naytonKorkeus = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
@@ -96,6 +94,8 @@ namespace Point1
 
             rnd = new Random(); //luodaan satunnaisluku
 
+            sankari.InitRitari();
+            sankaritar.InitPrinsessa();
 
             base.Initialize();
         }
@@ -116,6 +116,13 @@ namespace Point1
             //lataa fontti
             omaFontti = Content.Load<SpriteFont>("Arial20");
 
+            LoadGraphics();
+        }
+
+        public void LoadGraphics()
+        {
+            sankaritar.prinsessa = this.prinsessa;
+            sankari.ritari_anim = this.ritari_anim;
         }
 
         /// <summary>
@@ -137,32 +144,39 @@ namespace Point1
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-
-            ritarinHidastaja++;
-            if (!peruutus)
-            {
-                if (ritarinHidastaja > ritarinHidastajaRaja)
-                {
-                    ritari_x -= 80;
-                    if (ritari_x < 80) ritari_x = 320;
-                    ritarinHidastaja = 0;
-                }
-            }
-            else
-            ///*
-            {
-                if (ritarinHidastaja > ritarinHidastajaRaja)
-                {
-                    ritari_x += 80;
-                    if (ritari_x > 320) ritari_x = 80;
-                    ritarinHidastaja = 0;
-                }
-            }
-            //*/
-
-
+            //käsittelee näppäimistön tilan 
             KeyboardState newKeyboardState = Keyboard.GetState();
-            //käsittelee näppäimistön tilan   
+
+            sankari.Update(gameTime);
+            sankaritar.Update(gameTime);
+
+
+
+            /*
+                        ritarinHidastaja++;
+                        if (!peruutus)
+                        {
+                            if (ritarinHidastaja > ritarinHidastajaRaja)
+                            {
+                                ritari_x -= 80;
+                                if (ritari_x < 80) ritari_x = 320;
+                                ritarinHidastaja = 0;
+                            }
+                        }
+                        else
+                        
+                        {
+                            if (ritarinHidastaja > ritarinHidastajaRaja)
+                            {
+                                ritari_x += 80;
+                                if (ritari_x > 320) ritari_x = 80;
+                                ritarinHidastaja = 0;
+                            }
+                        }
+                        
+
+
+
 
             if (newKeyboardState.IsKeyDown(Keys.Left))
             {
@@ -240,7 +254,7 @@ namespace Point1
                 n -= 1;
                 if (n < 0) n = 0;
             }
-
+            //*/
 
             oldKeyboardState = newKeyboardState;   //tallenna vanha tila, jos tarpeen 
 
@@ -264,10 +278,14 @@ namespace Point1
             // Taustan väri 
             GraphicsDevice.Clear(Color.Black);
 
+            sankari.Draw(gameTime);
+            sankaritar.Draw(gameTime);
+
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
+            /*
             //spriteBatch.Draw(ritari_anim, paikka, Color.White); //testattu että kuva näkyy yleensä
             string viesti = "Tervehdys!";
             Vector2 alkupaikka = omaFontti.MeasureString(viesti);
@@ -289,7 +307,7 @@ namespace Point1
             else
                 spriteBatch.Draw(ritari_anim, paikka, new Rectangle(0, 0, 80, 120), Color.White,
                         MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), 1f, SpriteEffects.None, 0f);
-
+            */
 
             spriteBatch.End();
 
