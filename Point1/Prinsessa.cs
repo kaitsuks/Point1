@@ -19,7 +19,7 @@ namespace Point1
         public SpriteBatch spriteBatch;
         public Texture2D prinsessa; //spritesheet, 4 kuvaa a 80x120
         
-        Vector2 paikka; // sijainnin koordinaatit
+        public Vector2 paikka; // sijainnin koordinaatit
         int ritari_x = 0; //spritesheet-animaation muuttuv koordinaatti
         //animaaation hidastuslaskurin muuttujat
         int ritarinHidastaja;

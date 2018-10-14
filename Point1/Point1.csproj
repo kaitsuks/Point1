@@ -70,6 +70,7 @@
     <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="CollisionChecker.cs" />
     <Compile Include="Esine.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Hahmo.cs" />

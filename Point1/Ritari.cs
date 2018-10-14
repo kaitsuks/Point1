@@ -39,7 +39,7 @@ namespace Point1
         float ypoint = 0f;
         float rot = 0f; //asteina, ohjataan R ja E näppäimillä
         public float skaala = 1f;
-        public float perusskaala = 2f;
+        public float perusskaala = 1f;
 
 
 
@@ -183,8 +183,10 @@ namespace Point1
                 paikka.Y -= 1 * n;
                 if (paikka.Y < 50) paikka.Y = 50;
                 ylos = true;
+                /*
                 skaala -= 0.001f * n;
                 if (skaala < 0.7f) skaala = 0.7f;
+                */
             }
 
             //alas
@@ -193,8 +195,10 @@ namespace Point1
                 paikka.Y += 1 * n;
                 if (paikka.Y > 600) paikka.Y = 600;
                 alas = true;
+                /*
                 skaala += 0.001f * n;
-                if (skaala > 1f) skaala = 1f; 
+                if (skaala > 1f) skaala = 1f;
+                */ 
             }
 
             //rect.X = (int) (paikka.X * skaala);

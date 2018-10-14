@@ -14,6 +14,7 @@ namespace Point1
 
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        CollisionChecker cs;
 
         Texture2D prinsessa; //spritesheet, 4 kuvaa a 80x120
         Texture2D ritari_anim; //spritesheet, 4 kuvaa a 80x120
@@ -35,6 +36,7 @@ namespace Point1
         Random rnd; //satunnaisluku
 
         bool collisionDetected;
+        bool pixelCollision;
 
         #endregion
 
@@ -43,6 +45,7 @@ namespace Point1
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            cs = new CollisionChecker(this);
 
         }
 
@@ -55,6 +58,8 @@ namespace Point1
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+
+            cs.Init();
             paikka = new Vector2(300f, 200f);
             sankari = new Ritari(this); // drawable game component voidaan luoda vasta tässä
             sankaritar = new Prinsessa(this);
@@ -144,8 +149,10 @@ namespace Point1
             if (r.Width > 1 || r.Height > 1)
             {
                 collisionDetected = true;
-                Console.WriteLine("r.Width = " + r.Width);
-                Console.WriteLine("r.Height = " + r.Height);
+                pixelCollision =  cs.Check(GraphicsDevice, ritari_anim, prinsessa, sankari.paikka, sankaritar.paikka, sankari.rect);
+
+                //Console.WriteLine("r.Width = " + r.Width);
+                //Console.WriteLine("r.Height = " + r.Height);
             }
 
             oldKeyboardState = newKeyboardState;   //tallenna vanha tila, jos tarpeen 
@@ -153,7 +160,9 @@ namespace Point1
             //muuta logiikkaa
 
             int kortti = rnd.Next(52);     // tilapäismuuttuja kortti saa arvon välillä 0 - 51
-            
+
+            //cs.Check(this.GraphicsDevice, ritari_anim, prinsessa, sankari.paikka, sankaritar.paikka, sankari.rect);
+
             base.Update(gameTime);
         }
 
@@ -214,11 +223,22 @@ namespace Point1
             if(collisionDetected)
             {
                 ///*
-                viesti4 = "TORMAYS HAVAITTU!";
+                if (collisionDetected) viesti4 = "TORMAYS HAVAITTU!";
+                if (pixelCollision)
+                {
+                    viesti4 = "PIKSELITORMAYS!";
+                    spriteBatch.Draw(cs.uusi, new Vector2(400f, 400f), Color.White);
+                    spriteBatch.Draw(cs.uusiGhost, new Vector2(400f, 200f), Color.White);
+                }
+
                 alkupaikka4 = new Vector2(20f, 20f);
                 spriteBatch.DrawString(omaFontti, viesti4, alkupaikka4, textColor); //tekstin tulostus
                 sankaritar.viestilaskuri--;
-                if(sankaritar.viestilaskuri < 0) { sankaritar.viestilaskuri = 30; collisionDetected = false; }
+                if (sankaritar.viestilaskuri < 0)
+                {
+                    sankaritar.viestilaskuri = 30; collisionDetected = false;
+                    pixelCollision = false;
+                }
                 //*/
             }
             //spriteBatch.Draw(piste, sankari.rect, Color.White);
@@ -230,10 +250,13 @@ namespace Point1
                 Color.GreenYellow);
             //Console.WriteLine("sankari.paikka.X = " + sankari.paikka.X);
             //Console.WriteLine("sankari.paikka.Y = " + sankari.paikka.Y);
-            Console.WriteLine("sankari.rect.Width = " + sankari.rect.Width);
-            Console.WriteLine("sankari.rect.Height = " + sankari.rect.Height);
+            //Console.WriteLine("sankari.rect.Width = " + sankari.rect.Width);
+            //Console.WriteLine("sankari.rect.Height = " + sankari.rect.Height);
 
             spriteBatch.Draw(piste, sankaritar.rect, Color.Red);
+            //spriteBatch.Draw(cs.uusi, new Vector2(400f,400f), Color.White);
+            //spriteBatch.Draw(cs.uusiGhost, new Vector2(400f, 200f), Color.White);
+
             spriteBatch.End();
 
             //Draw Hahmot
