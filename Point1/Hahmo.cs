@@ -14,9 +14,11 @@ namespace Point1
     {
         SpriteBatch spriteBatch;
 
-        int intNopeus = 10;
-        int intTerveys = 100;
-        bool elossa = true;
+        public int intNopeus = 10;
+        public int intTerveys = 100;
+        public bool elossa = true;
+        public Rectangle rect = new Rectangle(0, 0, 80, 120);
+        public int viestilaskuri = 30;
 
         public Hahmo(Game game) : base(game)
         {

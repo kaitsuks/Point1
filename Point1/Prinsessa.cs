@@ -43,7 +43,7 @@ namespace Point1
         {
             prinsessa = new Texture2D(GraphicsDevice, 800, 600);
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            paikka = new Vector2(100f, 257f);
+            paikka = new Vector2(200f, 257f);
         }
 
         public void Liiku()
@@ -63,8 +63,14 @@ namespace Point1
                     ritarinHidastaja = 0;
                 }
             }
-            
-            
+
+            rect.X = (int)paikka.X;
+            rect.Y = (int)paikka.Y;
+            //Console.WriteLine("paikka.X = " + paikka.X);
+            //Console.WriteLine("paikka.Y = " + paikka.Y);
+            //Console.WriteLine("rect.Width = " + rect.Width);
+            //Console.WriteLine("rect.Height = " + rect.Height);
+
             base.Update(gameTime);
         }
 

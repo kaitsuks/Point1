@@ -18,6 +18,7 @@ namespace Point1
         Texture2D prinsessa; //spritesheet, 4 kuvaa a 80x120
         Texture2D ritari_anim; //spritesheet, 4 kuvaa a 80x120
         Texture2D taustakuva;
+        Texture2D piste;
 
         Vector2 paikka; // sijainnin koordinaatit
         
@@ -32,7 +33,9 @@ namespace Point1
         Prinsessa sankaritar;
         
         Random rnd; //satunnaisluku
-        
+
+        bool collisionDetected;
+
         #endregion
 
 
@@ -96,6 +99,8 @@ namespace Point1
             taustakuva = Content.Load<Texture2D>("tausta");
             //lataa fontti
             omaFontti = Content.Load<SpriteFont>("Arial20");
+            piste = Content.Load<Texture2D>("valkopiste");
+
 
             LoadGraphics();
         }
@@ -127,9 +132,21 @@ namespace Point1
 
             //käsittelee näppäimistön tilan 
             KeyboardState newKeyboardState = Keyboard.GetState();
-
+            collisionDetected = false;
             sankari.Update(gameTime);
             sankaritar.Update(gameTime);
+            //if(Rectangle.Intersect(sankari.rect, sankaritar.rect) !Empty) ;
+            //Rectangle.Empty
+            Rectangle r = new Rectangle();
+            r = Rectangle.Intersect(sankari.rect, sankaritar.rect);
+            //if (r != Rectangle.Empty) collisionDetected = true;
+            //if (r != Rectangle.Empty) collisionDetected = true;
+            if (r.Width > 1 || r.Height > 1)
+            {
+                collisionDetected = true;
+                Console.WriteLine("r.Width = " + r.Width);
+                Console.WriteLine("r.Height = " + r.Height);
+            }
 
             oldKeyboardState = newKeyboardState;   //tallenna vanha tila, jos tarpeen 
 
@@ -179,12 +196,49 @@ namespace Point1
             Vector2 alkupaikka2 = omaFontti.MeasureString(viesti2);
             spriteBatch.DrawString(omaFontti, viesti2, new Vector2((naytonLeveys - alkupaikka2.X) / 2, naytonKorkeus / 2 -300 + 40), textColor); //tekstin tulostus
             //*/
-            ///*
             string viesti3 = "Lahemmaksi ja kauemmaksi: Yla- ja alanuoli. Rotaatiot: E, R, T, Z, X";
             Vector2 alkupaikka3 = omaFontti.MeasureString(viesti3);
-            spriteBatch.DrawString(omaFontti, viesti3, new Vector2((naytonLeveys - alkupaikka3.X) / 2, naytonKorkeus / 2 -300 + 80), textColor); //tekstin tulostus
+            spriteBatch.DrawString(omaFontti, viesti3, new Vector2((naytonLeveys - alkupaikka3.X) / 2, naytonKorkeus / 2 - 300 + 80), textColor); //tekstin tulostus
+
+            ///*
+            string viesti4 = "LOPETUS = ESC       ";
+            Vector2 alkupaikka4 = new Vector2(20f, 20f);
+            if (!collisionDetected)
+            {
+                
+                
+                spriteBatch.DrawString(omaFontti, viesti4, alkupaikka4, textColor); //tekstin tulostus
+            }
             //*/
+
+            if(collisionDetected)
+            {
+                ///*
+                viesti4 = "TORMAYS HAVAITTU!";
+                alkupaikka4 = new Vector2(20f, 20f);
+                spriteBatch.DrawString(omaFontti, viesti4, alkupaikka4, textColor); //tekstin tulostus
+                sankaritar.viestilaskuri--;
+                if(sankaritar.viestilaskuri < 0) { sankaritar.viestilaskuri = 30; collisionDetected = false; }
+                //*/
+            }
+            //spriteBatch.Draw(piste, sankari.rect, Color.White);
+            spriteBatch.Draw(piste, new Rectangle((int) sankari.paikka.X,
+                (int) sankari.paikka.Y, //80, 120),
+                sankari.rect.Width, sankari.rect.Height),
+                //sankari.rect.Width, // * sankari.skaala * sankari.perusskaala),
+                //sankari.rect.Height), // * sankari.skaala * sankari.perusskaala)),
+                Color.GreenYellow);
+            //Console.WriteLine("sankari.paikka.X = " + sankari.paikka.X);
+            //Console.WriteLine("sankari.paikka.Y = " + sankari.paikka.Y);
+            Console.WriteLine("sankari.rect.Width = " + sankari.rect.Width);
+            Console.WriteLine("sankari.rect.Height = " + sankari.rect.Height);
+
+            spriteBatch.Draw(piste, sankaritar.rect, Color.Red);
             spriteBatch.End();
+
+            //Draw Hahmot
+            sankaritar.Draw(gameTime);
+            sankari.Draw(gameTime);
 
 
 

@@ -21,7 +21,7 @@ namespace Point1
 
         public Texture2D prinsessa; //spritesheet, 4 kuvaa a 80x120
         public Texture2D ritari_anim; //spritesheet, 4 kuvaa a 80x120
-        Vector2 paikka; // sijainnin koordinaatit
+        public Vector2 paikka; // sijainnin koordinaatit
         int ritari_x = 0; //spritesheet-animaation muuttuv koordinaatti
         //animaaation hidastuslaskurin muuttujat
         int ritarinHidastaja;
@@ -35,12 +35,13 @@ namespace Point1
         int n = 1; //nopeusmuuttuja
         //rotaation kääntöpisteen arvot, ohjataan X, Z, Y ja T näppäimillä
         //aluksi keskipiste 80x120 kokoiselle osaspritelle
-        float xpoint = 40f;
-        float ypoint = 60f;
+        float xpoint = 0f;
+        float ypoint = 0f;
         float rot = 0f; //asteina, ohjataan R ja E näppäimillä
-        float skaala = 1f;
+        public float skaala = 1f;
+        public float perusskaala = 2f;
 
-     
+
 
         public Ritari(Game game) : base(game)
         {
@@ -180,7 +181,7 @@ namespace Point1
             if (newKeyboardState.IsKeyDown(Keys.Up))
             {
                 paikka.Y -= 1 * n;
-                if (paikka.Y < 300) paikka.Y = 300;
+                if (paikka.Y < 50) paikka.Y = 50;
                 ylos = true;
                 skaala -= 0.001f * n;
                 if (skaala < 0.7f) skaala = 0.7f;
@@ -195,6 +196,19 @@ namespace Point1
                 skaala += 0.001f * n;
                 if (skaala > 1f) skaala = 1f; 
             }
+
+            //rect.X = (int) (paikka.X * skaala);
+            //rect.Y = (int) (paikka.Y * skaala);
+            rect.X = (int)paikka.X;
+            rect.Y = (int)paikka.Y;
+            /*
+            Console.WriteLine("paikka.X = " + paikka.X);
+            Console.WriteLine("paikka.Y = " + paikka.Y);
+            Console.WriteLine("rect.Width = " + rect.Width);
+            Console.WriteLine("rect.Height = " + rect.Height);
+            */
+            rect.Width = (int) (80 * skaala * perusskaala);
+            rect.Height = (int)(120 * skaala * perusskaala);
 
             oldKeyboardState = newKeyboardState;
 
@@ -219,16 +233,16 @@ namespace Point1
             if (liikkeella || ylos || alas)
             {
                 if (eteenpain)
-                    spriteBatch.Draw(ritari_anim, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White, MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), 2 * skaala, SpriteEffects.FlipHorizontally, 0f);
+                    spriteBatch.Draw(ritari_anim, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White, MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), perusskaala * skaala, SpriteEffects.FlipHorizontally, 0f);
                 if (!eteenpain)
-                    spriteBatch.Draw(ritari_anim, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White, MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), 2 * skaala, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(ritari_anim, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White, MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), perusskaala * skaala, SpriteEffects.None, 0f);
             }
             else if (eteenpain)
                 spriteBatch.Draw(ritari_anim, paikka, new Rectangle(0, 0, 80, 120), Color.White,
-                        MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), 2 * skaala, SpriteEffects.FlipHorizontally, 0f);
+                        MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), perusskaala * skaala, SpriteEffects.FlipHorizontally, 0f);
             else
                 spriteBatch.Draw(ritari_anim, paikka, new Rectangle(0, 0, 80, 120), Color.White,
-                        MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), 2 * skaala, SpriteEffects.None, 0f);
+                        MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), perusskaala * skaala, SpriteEffects.None, 0f);
 
 
 
