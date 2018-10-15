@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Point1
 {
-    class CollisionChecker : DrawableGameComponent
+    class CollisionChecker //: DrawableGameComponent
     {
         Color[][] playerData; // 
         Texture2D playerTexture; //ladattava jossain
@@ -24,9 +24,9 @@ namespace Point1
 
         public Matrix matrix1 { get; private set; }
 
-        public CollisionChecker(Game game) : base(game)
-        {
-        }
+       // public CollisionChecker(Game game) : base(game)
+       // {
+       // }
 
         public void Init()
         {

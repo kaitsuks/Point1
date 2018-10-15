@@ -45,7 +45,8 @@ namespace Point1
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            cs = new CollisionChecker(this);
+            //cs = new CollisionChecker(this);
+            cs = new CollisionChecker();
 
         }
 

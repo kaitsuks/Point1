@@ -73,6 +73,7 @@
     <Compile Include="CollisionChecker.cs" />
     <Compile Include="Esine.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="GameScreen.cs" />
     <Compile Include="Hahmo.cs" />
     <Compile Include="Miekka.cs" />
     <Compile Include="Prinsessa.cs" />
