@@ -74,8 +74,10 @@
     <Compile Include="Esine.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameScreen.cs" />
+    <Compile Include="GP.cs" />
     <Compile Include="Hahmo.cs" />
     <Compile Include="Miekka.cs" />
+    <Compile Include="OhjeScreen.cs" />
     <Compile Include="Prinsessa.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -101,6 +103,7 @@
     <Content Include="Content\valkopiste.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\WP_000207.jpg" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

@@ -14,9 +14,9 @@ namespace Point1
     {
 
 
-        Miekka miekka; //bool? Miekka-luokan ilmentymä?, int = miekan kunto?
-        private KeyboardState oldKeyboardState;
-        public SpriteBatch spriteBatch;
+        //Miekka miekka; //bool? Miekka-luokan ilmentymä?, int = miekan kunto?
+        //private KeyboardState oldKeyboardState;
+        //public SpriteBatch spriteBatch;
         public Texture2D prinsessa; //spritesheet, 4 kuvaa a 80x120
         
         public Vector2 paikka; // sijainnin koordinaatit
@@ -25,15 +25,15 @@ namespace Point1
         int ritarinHidastaja;
         int ritarinHidastajaRaja = 5;
         //liikkumisen tilamuuttujat
-        bool eteenpain = true; //ohjaus F-näppäin
-        bool peruutus = false; // ohjaus B-näppäin
-        bool liikkeella = false; //true kun vasen tai oikea nuolinäppäin on painettuna
-        int n = 1; //nopeusmuuttuja
+        //bool eteenpain = true; //ohjaus F-näppäin
+        //bool peruutus = false; // ohjaus B-näppäin
+        //bool liikkeella = false; //true kun vasen tai oikea nuolinäppäin on painettuna
+        //int n = 1; //nopeusmuuttuja
         //rotaation kääntöpisteen arvot, ohjataan X, Z, Y ja T näppäimillä
         //aluksi keskipiste 80x120 kokoiselle osaspritelle
-        float xpoint = 40f;
-        float ypoint = 60f;
-        float rot = 0f; //asteina, ohjataan R ja E näppäimillä
+        //float xpoint = 40f;
+        //float ypoint = 60f;
+        //float rot = 0f; //asteina, ohjataan R ja E näppäimillä
         
         public Prinsessa(Game game) : base(game)
         {
@@ -42,7 +42,7 @@ namespace Point1
         public void InitPrinsessa()
         {
             prinsessa = new Texture2D(GraphicsDevice, 800, 600);
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            //spriteBatch = new SpriteBatch(GraphicsDevice);
             paikka = new Vector2(200f, 257f);
         }
 

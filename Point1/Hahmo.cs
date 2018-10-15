@@ -12,7 +12,7 @@ namespace Point1
     class Hahmo : DrawableGameComponent
 
     {
-        SpriteBatch spriteBatch;
+        public SpriteBatch spriteBatch;
 
         public int intNopeus = 10;
         public int intTerveys = 100;
@@ -22,6 +22,7 @@ namespace Point1
 
         public Hahmo(Game game) : base(game)
         {
+            spriteBatch = new SpriteBatch(GraphicsDevice);
         }
 
         

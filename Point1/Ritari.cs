@@ -17,7 +17,7 @@ namespace Point1
         Miekka miekka; //bool? Miekka-luokan ilmentymä?, int = miekan kunto?
         private KeyboardState oldKeyboardState;
 
-        public SpriteBatch spriteBatch;
+        //public SpriteBatch spriteBatch;
 
         public Texture2D prinsessa; //spritesheet, 4 kuvaa a 80x120
         public Texture2D ritari_anim; //spritesheet, 4 kuvaa a 80x120
@@ -53,7 +53,7 @@ namespace Point1
         {
             prinsessa = new Texture2D(GraphicsDevice, 800, 600);
             ritari_anim = new Texture2D(GraphicsDevice, 800, 600);
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            //spriteBatch = new SpriteBatch(GraphicsDevice);
             paikka = new Vector2(300f, 580f);
         }
 
