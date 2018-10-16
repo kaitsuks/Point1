@@ -40,8 +40,9 @@ namespace Point1
         float rot = 0f; //asteina, ohjataan R ja E näppäimillä
         public float skaala = 1f;
         public float perusskaala = 1f;
-
-
+        private int y;
+        private int x;
+        Tarkistus tarkistus;
 
         public Ritari(Game game) : base(game)
         {
@@ -55,6 +56,8 @@ namespace Point1
             ritari_anim = new Texture2D(GraphicsDevice, 800, 600);
             //spriteBatch = new SpriteBatch(GraphicsDevice);
             paikka = new Vector2(300f, 580f);
+            tarkistus = new Tarkistus();
+            base.Initialize();
         }
 
         public void Liiku()
@@ -88,6 +91,9 @@ namespace Point1
             }
             //*/
 
+            //KOORDINAATIT
+            x = (int)paikka.X / 30;
+            y = (int)paikka.Y / 30;
 
             KeyboardState newKeyboardState = Keyboard.GetState();
             //käsittelee näppäimistön tilan   
@@ -98,10 +104,12 @@ namespace Point1
 
             if (newKeyboardState.IsKeyDown(Keys.Left))
             {
-                //hahmo.LiikuVasemmalle
-                liikkeella = true;
-                if (!peruutus) { paikka.X -= n; eteenpain = true; }
-                if (peruutus) { paikka.X -= n; eteenpain = false; }
+                if (tarkistus.Check("left", x, y)) {
+                    //hahmo.LiikuVasemmalle
+                    liikkeella = true;
+                    if (!peruutus) { paikka.X -= n; eteenpain = true; }
+                    if (peruutus) { paikka.X -= n; eteenpain = false; }
+                }
 
             }
             
@@ -110,10 +118,12 @@ namespace Point1
             if (newKeyboardState.IsKeyDown(Keys.Right))
             {
                 //hahmo.LiikuOikealle
-                liikkeella = true;
-                if (!peruutus) { paikka.X += n; eteenpain = true; }
-                if (peruutus) { paikka.X += n; eteenpain = false; }
-
+                if (tarkistus.Check("right", x, y))
+                {
+                    liikkeella = true;
+                    if (!peruutus) { paikka.X += n; eteenpain = true; }
+                    if (peruutus) { paikka.X += n; eteenpain = false; }
+                }
             }
             
 
@@ -248,7 +258,8 @@ namespace Point1
                 spriteBatch.Draw(ritari_anim, paikka, new Rectangle(0, 0, 80, 120), Color.White,
                         MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), perusskaala * skaala, SpriteEffects.None, 0f);
 
-
+            //tulostetaan koordinaatit
+            spriteBatch.DrawString(omaFontti, " " + x.ToString() + " , " + y.ToString(), new Vector2(20, 25), Color.Red, 0f, new Vector2(0, 0), 3f, SpriteEffects.None, 0f);
 
             spriteBatch.End();
 

@@ -76,12 +76,18 @@
     <Compile Include="GameScreen.cs" />
     <Compile Include="GP.cs" />
     <Compile Include="Hahmo.cs" />
+    <Compile Include="HiekkaPala.cs" />
+    <Compile Include="Kartta.cs" />
+    <Compile Include="KiviPala.cs" />
     <Compile Include="Miekka.cs" />
     <Compile Include="OhjeScreen.cs" />
+    <Compile Include="Pala.cs" />
     <Compile Include="Prinsessa.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ritari.cs" />
+    <Compile Include="Tarkistus.cs" />
+    <Compile Include="VesiPala.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -100,10 +106,14 @@
     <Content Include="Content\tausta.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="Content\tilesand.png" />
+    <Content Include="Content\tilestone.png" />
+    <Content Include="Content\tilewater.png" />
     <Content Include="Content\valkopiste.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\WP_000207.jpg" />
+    <Content Include="Content\WP_000303.jpg" />
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>

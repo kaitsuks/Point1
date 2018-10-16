@@ -50,6 +50,8 @@ namespace Point1
         bool collisionDetected;
         bool pixelCollision;
 
+        Kartta kartta;
+
         Rectangle button;
 
         #endregion
@@ -98,13 +100,13 @@ namespace Point1
             naytonKorkeus = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             //aseta peli-ikkunalle koko tarvittaessa
 
-            if (naytonLeveys >= 1200)
+            if (naytonLeveys >= 1600)
             {
-                naytonLeveys = 1200;
+                naytonLeveys = 1600;
             }
-            if (naytonKorkeus >= 800)
+            if (naytonKorkeus >= 930)
             {
-                naytonKorkeus = 800;
+                naytonKorkeus = 930;
             }
             graphics.PreferredBackBufferWidth = naytonLeveys;
             graphics.PreferredBackBufferHeight = naytonKorkeus;
@@ -126,11 +128,14 @@ namespace Point1
             ohjeruutu = new OhjeScreen(this);
             ohjeruutu.Initialize();
 
+            kartta = new Kartta(this);
+            kartta.Initialize();
+
             textColor = new Color(Color.OrangeRed, 1f);
             viesti4 = "LOPETUS = ESC       ";
             alkupaikka4 = new Vector2(20f, 20f);
 
-            button = new Rectangle(880, 80, 300, 100);
+            button = new Rectangle(1200, 750, 300, 100);
 
             base.Initialize();
         }
@@ -163,7 +168,7 @@ namespace Point1
             sankaritar.prinsessa = this.prinsessa;
             sankari.ritari_anim = this.ritari_anim;
             gs1.Initialize();
-            gs1.taustakuva = taustakuva2;
+            //gs1.taustakuva = taustakuva2;
         }
 
         /// <summary>
@@ -246,23 +251,30 @@ namespace Point1
 
             // Draw background
             spriteBatch.Begin();
+            spriteBatch.Draw(taustakuva, new Rectangle(0, 0, GP.naytonLeveys, GP.naytonKorkeus), Color.White);
+            spriteBatch.End();
+
+            spriteBatch.Begin();
 
             if (bOhjeet)
             {
 
                 //spriteBatch.Draw(taustakuva2, new Rectangle(0, 0, naytonLeveys, naytonKorkeus), Color.White);
                 //spriteBatch.Draw(gs1.taustakuva, new Rectangle(0, 0, naytonLeveys, naytonKorkeus), Color.White);
-                gs1.Draw(gameTime);
+                //gs1.Draw(gameTime);
                 ohjeruutu.Draw(gameTime);
+                //kartta.Draw(gameTime);
+                
             }
             else
             {
-                spriteBatch.Draw(taustakuva, new Rectangle(0, 0, 1200, 800), Color.White);
+                kartta.naytaKartta();
+                
                 viesti0 = "Pelasta Prinsessa Mary!";
                 alkupaikka0 = omaFontti.MeasureString(viesti0);
                 //spriteBatch.DrawString(omaFontti, viesti0, new Vector2((naytonLeveys - alkupaikka0.X) / 2, naytonKorkeus / 2 - 300), Color.Black); //tekstin tulostus
                 //spriteBatch.DrawString(omaFontti, viesti0, new Vector2((naytonLeveys - alkupaikka0.X) / 2, naytonKorkeus / 2 - 300), Color.Black); //tekstin tulostus
-                spriteBatch.DrawString(omaFontti, viesti0, new Vector2((naytonLeveys - alkupaikka0.X - 300) / 2, naytonKorkeus / 2 - 400), Color.AliceBlue, 0f, new Vector2(0, 0), 3f, SpriteEffects.None, 0f);
+                spriteBatch.DrawString(omaFontti, viesti0, new Vector2((naytonLeveys - alkupaikka0.X) / 2 + 270, naytonKorkeus / 2 - 400), Color.Blue, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
 
 
                 //Draw Hahmot
@@ -304,20 +316,24 @@ namespace Point1
                 //*/
             }
             //spriteBatch.Draw(piste, sankari.rect, Color.White);
+            /*
             spriteBatch.Draw(piste, new Rectangle((int) sankari.paikka.X,
                 (int) sankari.paikka.Y, //80, 120),
                 sankari.rect.Width, sankari.rect.Height),
                 //sankari.rect.Width, // * sankari.skaala * sankari.perusskaala),
                 //sankari.rect.Height), // * sankari.skaala * sankari.perusskaala)),
                 Color.GreenYellow);
+            */
             //Console.WriteLine("sankari.paikka.X = " + sankari.paikka.X);
             //Console.WriteLine("sankari.paikka.Y = " + sankari.paikka.Y);
             //Console.WriteLine("sankari.rect.Width = " + sankari.rect.Width);
             //Console.WriteLine("sankari.rect.Height = " + sankari.rect.Height);
 
+            /*
             spriteBatch.Draw(piste, sankaritar.rect, Color.Red);
             //spriteBatch.Draw(cs.uusi, new Vector2(400f,400f), Color.White);
             //spriteBatch.Draw(cs.uusiGhost, new Vector2(400f, 200f), Color.White);
+            */
 
             //hiiren nappula
             spriteBatch.Draw(piste, button, new Rectangle(0, 0, 1, 1), Color.Black);
@@ -325,7 +341,7 @@ namespace Point1
             alkupaikka0 = omaFontti.MeasureString(nappulateksti);
             //spriteBatch.DrawString(omaFontti, viesti0, new Vector2((naytonLeveys - alkupaikka0.X) / 2, naytonKorkeus / 2 - 300), Color.Black); //tekstin tulostus
             //spriteBatch.DrawString(omaFontti, viesti0, new Vector2((naytonLeveys - alkupaikka0.X) / 2, naytonKorkeus / 2 - 300), Color.Black); //tekstin tulostus
-            spriteBatch.DrawString(omaFontti, nappulateksti, new Vector2(900, 85), Color.Red, 0f, new Vector2(0, 0), 3f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(omaFontti, nappulateksti, new Vector2(1220, 760), Color.Red, 0f, new Vector2(0, 0), 3f, SpriteEffects.None, 0f);
 
 
             spriteBatch.End();

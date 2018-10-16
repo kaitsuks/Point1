@@ -25,6 +25,7 @@ namespace Point1
         public GameScreen(Game game) : base(game)
         {
             //spriteBatch = new SpriteBatch(GraphicsDevice);
+            
         }
 
         public GameScreen(Game game, GraphicsDeviceManager graphicsDeviceManager) : base(game)         { }
@@ -35,6 +36,7 @@ namespace Point1
 
         protected override void LoadContent()
         {
+            //taustakuva = Game1.Instance.Content.Load<Texture2D>("WP_000303");
 
         }
 
@@ -43,7 +45,7 @@ namespace Point1
             spriteBatch = new SpriteBatch(GraphicsDevice);
             naytonLeveys = GP.naytonLeveys;
             naytonKorkeus = GP.naytonKorkeus;
-            taustakuva = new Texture2D(GraphicsDevice, naytonLeveys, naytonKorkeus);
+            //taustakuva = new Texture2D(GraphicsDevice, naytonLeveys, naytonKorkeus);
             omaFontti = Game1.Instance.Content.Load<SpriteFont>("Arial20");
             base.Initialize();
         }
