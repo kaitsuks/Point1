@@ -291,9 +291,9 @@ namespace Point1
 
             if (bOhjeet)
             {
-                //if (!songPlayed) { sounder.Sing(); songPlayed = true; }
-                //else
-                //    songPlayed = false;
+                if (!songPlayed) { sounder.Sing(); songPlayed = true; }
+                else
+                    songPlayed = false;
 
                 //spriteBatch.Draw(taustakuva2, new Rectangle(0, 0, naytonLeveys, naytonKorkeus), Color.White);
                 //spriteBatch.Draw(gs1.taustakuva, new Rectangle(0, 0, naytonLeveys, naytonKorkeus), Color.White);
