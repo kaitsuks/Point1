@@ -18,6 +18,7 @@ namespace Point1
         private KeyboardState oldKeyboardState;
 
         //public SpriteBatch spriteBatch;
+        BoundsCheck bc;
 
         public Texture2D prinsessa; //spritesheet, 4 kuvaa a 80x120
         public Texture2D ritari_anim; //spritesheet, 4 kuvaa a 80x120
@@ -46,6 +47,7 @@ namespace Point1
 
         public Ritari(Game game) : base(game)
         {
+            bc = new BoundsCheck();
         }
 
         
@@ -104,11 +106,19 @@ namespace Point1
 
             if (newKeyboardState.IsKeyDown(Keys.Left))
             {
-                if (tarkistus.Check("left", x, y)) {
+                if (tarkistus.Check("left", x, y))
+                {
                     //hahmo.LiikuVasemmalle
                     liikkeella = true;
-                    if (!peruutus) { paikka.X -= n; eteenpain = true; }
+
+                    int bcx = (int)paikka.X;
+                    int bcy = (int)paikka.Y;
+                    bcx -= n;
+                    //bcy += n;
+                    if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy)) { 
+                        if (!peruutus) { paikka.X -= n; eteenpain = true; }
                     if (peruutus) { paikka.X -= n; eteenpain = false; }
+                }
                 }
 
             }
@@ -121,8 +131,15 @@ namespace Point1
                 if (tarkistus.Check("right", x, y))
                 {
                     liikkeella = true;
-                    if (!peruutus) { paikka.X += n; eteenpain = true; }
-                    if (peruutus) { paikka.X += n; eteenpain = false; }
+                    int bcx = (int)paikka.X;
+                    int bcy = (int)paikka.Y;
+                    bcx += n;
+                    //bcy += n;
+                    if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy))
+                    {
+                        if (!peruutus) { paikka.X += n; eteenpain = true; }
+                        if (peruutus) { paikka.X += n; eteenpain = false; }
+                    }
                 }
             }
             
@@ -190,9 +207,16 @@ namespace Point1
             //ylös
             if (newKeyboardState.IsKeyDown(Keys.Up))
             {
-                paikka.Y -= 1 * n;
-                if (paikka.Y < 50) paikka.Y = 50;
-                ylos = true;
+                int bcx = (int)paikka.X;
+                int bcy = (int)paikka.Y;
+                //bcx = n;
+                bcy -= n;
+                if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy))
+                {
+                    paikka.Y -= 1 * n;
+                    if (paikka.Y < 50) paikka.Y = 50;
+                    ylos = true;
+                }
                 /*
                 skaala -= 0.001f * n;
                 if (skaala < 0.7f) skaala = 0.7f;
@@ -202,13 +226,20 @@ namespace Point1
             //alas
             if (newKeyboardState.IsKeyDown(Keys.Down))
             {
-                paikka.Y += 1 * n;
-                if (paikka.Y > 600) paikka.Y = 600;
-                alas = true;
-                /*
-                skaala += 0.001f * n;
-                if (skaala > 1f) skaala = 1f;
-                */ 
+                int bcx = (int)paikka.X;
+                int bcy = (int)paikka.Y;
+                //bcx = n;
+                bcy += n;
+                if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy))
+                {
+                    paikka.Y += 1 * n;
+                    if (paikka.Y > 600) paikka.Y = 600;
+                    alas = true;
+                    /*
+                    skaala += 0.001f * n;
+                    if (skaala > 1f) skaala = 1f;
+                    */
+                }
             }
 
             //rect.X = (int) (paikka.X * skaala);

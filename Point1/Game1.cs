@@ -17,6 +17,7 @@ namespace Point1
         CollisionChecker cs;
         GameScreen gs1;
         OhjeScreen ohjeruutu;
+        //Automove am;
 
         Texture2D prinsessa; //spritesheet, 4 kuvaa a 80x120
         Texture2D ritari_anim; //spritesheet, 4 kuvaa a 80x120
@@ -73,9 +74,10 @@ namespace Point1
         {     //
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            //cs = new CollisionChecker(this);
+            
             this.IsMouseVisible = true;
             cs = new CollisionChecker();
+            //am = new Automove();
             Mouse.PlatformSetCursor(MouseCursor.Arrow);
             Instance = this;
         }
@@ -196,6 +198,7 @@ namespace Point1
             KeyboardState newKeyboardState = Keyboard.GetState();
             collisionDetected = false;
             sankari.Update(gameTime);
+            sankaritar.Liiku();
             sankaritar.Update(gameTime);
             //if(Rectangle.Intersect(sankari.rect, sankaritar.rect) !Empty) ;
             //Rectangle.Empty

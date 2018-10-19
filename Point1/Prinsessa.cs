@@ -17,6 +17,7 @@ namespace Point1
         //Miekka miekka; //bool? Miekka-luokan ilmentymä?, int = miekan kunto?
         //private KeyboardState oldKeyboardState;
         //public SpriteBatch spriteBatch;
+        Automove am;
         public Texture2D prinsessa; //spritesheet, 4 kuvaa a 80x120
         
         public Vector2 paikka; // sijainnin koordinaatit
@@ -44,10 +45,12 @@ namespace Point1
             prinsessa = new Texture2D(GraphicsDevice, 800, 600);
             //spriteBatch = new SpriteBatch(GraphicsDevice);
             paikka = new Vector2(200f, 257f);
+            am = new Automove();
         }
 
         public void Liiku()
         {
+            paikka =  am.Wander();
         }
 
         public override void Update(GameTime gameTime)
