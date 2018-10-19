@@ -89,6 +89,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Ritari.cs" />
+    <Compile Include="Sounder.cs" />
     <Compile Include="Tarkistus.cs" />
     <Compile Include="VesiPala.cs" />
   </ItemGroup>
@@ -100,6 +101,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\explosion-01.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\explosion-02.mp3" />
     <Content Include="Content\Prinsessa_animaatio1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

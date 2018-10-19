@@ -17,6 +17,7 @@ namespace Point1
         CollisionChecker cs;
         GameScreen gs1;
         OhjeScreen ohjeruutu;
+        Sounder sounder;
         //Automove am;
 
         Texture2D prinsessa; //spritesheet, 4 kuvaa a 80x120
@@ -50,6 +51,7 @@ namespace Point1
 
         bool collisionDetected;
         bool pixelCollision;
+        bool crashPlayed;
 
         Kartta kartta;
 
@@ -69,6 +71,7 @@ namespace Point1
         */
 
         public static Game1 Instance;
+        private bool songPlayed;
 
         public Game1()
         {     //
@@ -77,6 +80,7 @@ namespace Point1
             
             this.IsMouseVisible = true;
             cs = new CollisionChecker();
+            sounder = new Sounder();
             //am = new Automove();
             Mouse.PlatformSetCursor(MouseCursor.Arrow);
             Instance = this;
@@ -94,6 +98,7 @@ namespace Point1
             // TODO: Add your initialization logic here
 
             cs.Init();
+            sounder.InitSounder();
             paikka = new Vector2(300f, 200f);
             sankari = new Ritari(this); // drawable game component voidaan luoda vasta tässä
             sankaritar = new Prinsessa(this);
@@ -210,7 +215,13 @@ namespace Point1
             {
                 collisionDetected = true;
                 pixelCollision =  cs.Check(GraphicsDevice, ritari_anim, prinsessa, sankari.paikka, sankaritar.paikka, sankari.rect);
-
+                if (pixelCollision && !crashPlayed)
+                {
+                    sounder.Crash(); crashPlayed = true;
+                    Console.WriteLine("RÄJÄHDYSEFEKTI!");
+                }
+                else
+                    crashPlayed = false;
                 //Console.WriteLine("r.Width = " + r.Width);
                 //Console.WriteLine("r.Height = " + r.Height);
             }
@@ -261,6 +272,9 @@ namespace Point1
 
             if (bOhjeet)
             {
+                if (!songPlayed) { sounder.Sing(); songPlayed = true; }
+                else
+                    songPlayed = false;
 
                 //spriteBatch.Draw(taustakuva2, new Rectangle(0, 0, naytonLeveys, naytonKorkeus), Color.White);
                 //spriteBatch.Draw(gs1.taustakuva, new Rectangle(0, 0, naytonLeveys, naytonKorkeus), Color.White);
