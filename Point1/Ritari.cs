@@ -224,6 +224,10 @@ namespace Point1
             rect.Width = (int) (80 * skaala * perusskaala);
             rect.Height = (int)(120 * skaala * perusskaala);
 
+            Point rectLocation = rect.Location; // ei käytössä!
+
+            Rectangle isoRect = ritari_anim.Bounds; // ei käytössä!
+
             oldKeyboardState = newKeyboardState;
 
             base.Update(gameTime);

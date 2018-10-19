@@ -21,7 +21,6 @@ namespace Point1
         public Texture2D uusi;
         public Texture2D uusiGhost;
         public Matrix matrix2;
-
         public Matrix matrix1 { get; private set; }
 
        // public CollisionChecker(Game game) : base(game)
@@ -79,7 +78,6 @@ namespace Point1
                 zombiData[i] = new Color[80 * 120];
                 zombiTexture.GetData(0, new Rectangle(i, 0, 80, 120),
                     zombiData[i], 0, 80 * 120);
-
             }
 
             
