@@ -25,6 +25,8 @@ namespace Point1
         //animaaation hidastuslaskurin muuttujat
         int ritarinHidastaja;
         int ritarinHidastajaRaja = 5;
+        //private Func<Prinsessa> luoPrinsessa;
+
         //liikkumisen tilamuuttujat
         //bool eteenpain = true; //ohjaus F-näppäin
         //bool peruutus = false; // ohjaus B-näppäin
@@ -35,17 +37,26 @@ namespace Point1
         //float xpoint = 40f;
         //float ypoint = 60f;
         //float rot = 0f; //asteina, ohjataan R ja E näppäimillä
-        
+
         public Prinsessa(Game game) : base(game)
         {
+
+            InitPrinsessa();
         }
-        
+
+        //public Prinsessa(Func<Prinsessa> luoPrinsessa);
+        //{
+        //    this.luoPrinsessa = luoPrinsessa;
+        //}
+
         public void InitPrinsessa()
         {
             prinsessa = new Texture2D(GraphicsDevice, 800, 600);
+
             //spriteBatch = new SpriteBatch(GraphicsDevice);
             paikka = new Vector2(200f, 257f);
             am = new Automove();
+            prinsessa = Game1.Instance.Content.Load<Texture2D>("Prinsessa_animaatio1");
         }
 
         public void Liiku()
@@ -55,9 +66,7 @@ namespace Point1
 
         public override void Update(GameTime gameTime)
         {
-
             ritarinHidastaja++;
-            
             {
                 if (ritarinHidastaja > ritarinHidastajaRaja)
                 {
@@ -81,8 +90,6 @@ namespace Point1
         {
             // Taustan väri 
             //GraphicsDevice.Clear(Color.Black);
-
-
             // TODO: Add your drawing code here
             spriteBatch.Begin();
 
@@ -90,21 +97,12 @@ namespace Point1
             string viesti = "Tervehdys!";
             //Vector2 alkupaikka = omaFontti.MeasureString(viesti);
             //spriteBatch.DrawString(omaFontti, viesti, new Vector2((naytonLeveys - alkupaikka.X) / 2, naytonKorkeus / 2), Color.White); //tekstin tulostus
-
-
             //spriteBatch.Draw(ritari_anim, new Rectangle((int) paikka.X, (int) paikka.Y, 160, 240), new Rectangle(ritari_x - 80, 0, 80, 120), Color.White); //koko suurennettu 2-kertaiseksi
-
             //spriteBatch.Draw(ritari_anim, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White); //spritetsheet-animaatio yksinkertaisesti
-
-            spriteBatch.Draw(prinsessa, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White); //spritetsheet-animaatio yksinkertaisesti    
-
+            spriteBatch.Draw(prinsessa, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White); //spritetsheet-animaatio yksinkertaisesti 
             //spriteBatch.Draw(prinsessa, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White, 0, new Vector2(xpoint, ypoint), 1f, SpriteEffects.None, 0f);
-                
-            
-
+               
             spriteBatch.End();
-
-
             base.Draw(gameTime);
         }
 

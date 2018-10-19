@@ -25,16 +25,21 @@ namespace Point1
 
         public Hahmo(Game game) : base(game)
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-        }
-
-        public override void Initialize()
-        {
+            //spriteBatch = new SpriteBatch(GraphicsDevice);
             spriteBatch = new SpriteBatch(GraphicsDevice);
             naytonLeveys = GP.naytonLeveys;
             naytonKorkeus = GP.naytonKorkeus;
             //taustakuva = new Texture2D(GraphicsDevice, naytonLeveys, naytonKorkeus);
             omaFontti = Game1.Instance.Content.Load<SpriteFont>("Arial20");
+        }
+
+        public override void Initialize()
+        {
+            //spriteBatch = new SpriteBatch(GraphicsDevice);
+            //naytonLeveys = GP.naytonLeveys;
+            //naytonKorkeus = GP.naytonKorkeus;
+            ////taustakuva = new Texture2D(GraphicsDevice, naytonLeveys, naytonKorkeus);
+            //omaFontti = Game1.Instance.Content.Load<SpriteFont>("Arial20");
             base.Initialize();
         }
 

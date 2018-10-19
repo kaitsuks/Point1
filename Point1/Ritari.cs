@@ -22,6 +22,7 @@ namespace Point1
 
         public Texture2D prinsessa; //spritesheet, 4 kuvaa a 80x120
         public Texture2D ritari_anim; //spritesheet, 4 kuvaa a 80x120
+        public Texture2D aarre;
         public Vector2 paikka; // sijainnin koordinaatit
         int ritari_x = 0; //spritesheet-animaation muuttuv koordinaatti
         //animaaation hidastuslaskurin muuttujat
@@ -41,9 +42,13 @@ namespace Point1
         float rot = 0f; //asteina, ohjataan R ja E näppäimillä
         public float skaala = 1f;
         public float perusskaala = 1f;
-        private int y;
-        private int x;
-        Tarkistus tarkistus;
+        public  int y;
+        public  int x;
+        public Tarkistus tarkistus;
+        public string tulos;
+        private bool aarreLoytynyt;
+        private int aarreX;
+        private int aarreY;
 
         public Ritari(Game game) : base(game)
         {
@@ -59,6 +64,7 @@ namespace Point1
             //spriteBatch = new SpriteBatch(GraphicsDevice);
             paikka = new Vector2(300f, 580f);
             tarkistus = new Tarkistus();
+            aarre = Game1.Instance.Content.Load<Texture2D>("Miekka_short_alpha");
             base.Initialize();
         }
 
@@ -94,8 +100,8 @@ namespace Point1
             //*/
 
             //KOORDINAATIT
-            x = (int)paikka.X / 30;
-            y = (int)paikka.Y / 30;
+            x = (int)(paikka.X + 0) / 30;
+            y = (int)( paikka.Y + 90) / 30;
 
             KeyboardState newKeyboardState = Keyboard.GetState();
             //käsittelee näppäimistön tilan   
@@ -106,7 +112,8 @@ namespace Point1
 
             if (newKeyboardState.IsKeyDown(Keys.Left))
             {
-                if (tarkistus.Check("left", x, y))
+                //if (tarkistus.Check("left", x, y))
+                    tulos = tarkistus.Check("left", x, y);
                 {
                     //hahmo.LiikuVasemmalle
                     liikkeella = true;
@@ -115,7 +122,9 @@ namespace Point1
                     int bcy = (int)paikka.Y;
                     bcx -= n;
                     //bcy += n;
-                    if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy)) { 
+                    if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy) &&
+                    tarkistus.CheckObstacles("left", x, y)) 
+                        { 
                         if (!peruutus) { paikka.X -= n; eteenpain = true; }
                     if (peruutus) { paikka.X -= n; eteenpain = false; }
                 }
@@ -128,14 +137,16 @@ namespace Point1
             if (newKeyboardState.IsKeyDown(Keys.Right))
             {
                 //hahmo.LiikuOikealle
-                if (tarkistus.Check("right", x, y))
+                //if (tarkistus.Check("right", x, y))
+                tulos = tarkistus.Check("right", x, y);
                 {
                     liikkeella = true;
                     int bcx = (int)paikka.X;
                     int bcy = (int)paikka.Y;
                     bcx += n;
                     //bcy += n;
-                    if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy))
+                    if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy) &&
+                    tarkistus.CheckObstacles("right", x, y))
                     {
                         if (!peruutus) { paikka.X += n; eteenpain = true; }
                         if (peruutus) { paikka.X += n; eteenpain = false; }
@@ -207,11 +218,13 @@ namespace Point1
             //ylös
             if (newKeyboardState.IsKeyDown(Keys.Up))
             {
+                tulos = tarkistus.Check("up", x, y);
                 int bcx = (int)paikka.X;
                 int bcy = (int)paikka.Y;
                 //bcx = n;
                 bcy -= n;
-                if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy))
+                if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy) &&
+                    tarkistus.CheckObstacles("up", x, y))
                 {
                     paikka.Y -= 1 * n;
                     if (paikka.Y < 50) paikka.Y = 50;
@@ -226,14 +239,16 @@ namespace Point1
             //alas
             if (newKeyboardState.IsKeyDown(Keys.Down))
             {
+                tulos = tarkistus.Check("down", x, y);
                 int bcx = (int)paikka.X;
                 int bcy = (int)paikka.Y;
                 //bcx = n;
                 bcy += n;
-                if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy))
+                if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy) &&
+                    tarkistus.CheckObstacles("down", x, y))
                 {
                     paikka.Y += 1 * n;
-                    if (paikka.Y > 600) paikka.Y = 600;
+                    //if (paikka.Y > 600) paikka.Y = 600;
                     alas = true;
                     /*
                     skaala += 0.001f * n;
@@ -294,7 +309,28 @@ namespace Point1
                         MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), perusskaala * skaala, SpriteEffects.None, 0f);
 
             //tulostetaan koordinaatit
+            if (tulos == "Z") tulos = " VETTA ";
+            if (tulos == "X") tulos = " KIVEA ";
+            if (tulos == "O") tulos = " HIEKKAA ";
+            if (tulos == "V") tulos = " SUKLAATA ";
             spriteBatch.DrawString(omaFontti, " " + x.ToString() + " , " + y.ToString(), new Vector2(20, 25), Color.Red, 0f, new Vector2(0, 0), 3f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(omaFontti, " RUUDUSSA " + tulos, new Vector2(300, 25), Color.Black, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
+            if (tulos == "aarre")
+            {
+                aarreLoytynyt = true;
+                aarreX = x;
+                aarreY = y;
+                //spriteBatch.Draw(aarre, new Vector2(940, 150), Color.White);
+                //tarkistus.SetKuoppa(x, y);
+                //Console.WriteLine("Kuoppa kaivettu ");
+            }
+            if (aarreLoytynyt)
+            {
+                spriteBatch.Draw(aarre, new Vector2(940, 150), Color.White);
+                spriteBatch.Draw(aarre, new Vector2(aarreX * 30, aarreY * 30), new Rectangle(0, 0, aarre.Width, aarre.Height), Color.White, MathHelper.ToRadians(rot), new Vector2(xpoint, ypoint), 0.2f, SpriteEffects.None, 0f);
+
+            }
+
 
             spriteBatch.End();
 

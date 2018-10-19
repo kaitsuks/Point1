@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace Point1
 {
@@ -19,12 +20,14 @@ namespace Point1
         OhjeScreen ohjeruutu;
         Sounder sounder;
         //Automove am;
+        string tulos = "";
 
         Texture2D prinsessa; //spritesheet, 4 kuvaa a 80x120
         Texture2D ritari_anim; //spritesheet, 4 kuvaa a 80x120
         Texture2D taustakuva;
         Texture2D taustakuva2;
         Texture2D piste;
+        ObjectCreator oc;
 
         Vector2 paikka; // sijainnin koordinaatit
         
@@ -54,6 +57,7 @@ namespace Point1
         bool crashPlayed;
 
         Kartta kartta;
+        Tarkistus tarkistus;
 
         Rectangle button;
 
@@ -84,6 +88,7 @@ namespace Point1
             //am = new Automove();
             Mouse.PlatformSetCursor(MouseCursor.Arrow);
             Instance = this;
+            oc = new ObjectCreator();
         }
 
 
@@ -96,17 +101,16 @@ namespace Point1
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            oc.game = this;
+            tarkistus = new Tarkistus();
             cs.Init();
             sounder.InitSounder();
             paikka = new Vector2(300f, 200f);
             sankari = new Ritari(this); // drawable game component voidaan luoda vasta tässä
             sankaritar = new Prinsessa(this);
-
             naytonLeveys = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
             naytonKorkeus = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
             //aseta peli-ikkunalle koko tarvittaessa
-
             if (naytonLeveys >= 1600)
             {
                 naytonLeveys = 1600;
@@ -118,31 +122,24 @@ namespace Point1
             graphics.PreferredBackBufferWidth = naytonLeveys;
             graphics.PreferredBackBufferHeight = naytonKorkeus;
             graphics.ApplyChanges();
-
             GP.naytonLeveys = naytonLeveys;
             GP.naytonKorkeus = naytonKorkeus;
-            
-
             rnd = new Random(); //luodaan satunnaisluku
-
             sankari.InitRitari();
             sankaritar.InitPrinsessa();
-
             //gs1 = new GameScreen(this);
             gs1 = new GameScreen(this, graphics);
             gs1.Initialize();
-
             ohjeruutu = new OhjeScreen(this);
             ohjeruutu.Initialize();
-
             kartta = new Kartta(this);
             kartta.Initialize();
-
             textColor = new Color(Color.OrangeRed, 1f);
             viesti4 = "LOPETUS = ESC       ";
             alkupaikka4 = new Vector2(20f, 20f);
-
             button = new Rectangle(1200, 750, 300, 100);
+            tarkistus.kartta = this.kartta;
+            sankari.tarkistus = this.tarkistus;
 
             base.Initialize();
         }
@@ -202,16 +199,23 @@ namespace Point1
             //käsittelee näppäimistön tilan 
             KeyboardState newKeyboardState = Keyboard.GetState();
             collisionDetected = false;
+            pixelCollision = false;
             sankari.Update(gameTime);
             sankaritar.Liiku();
+            if (sankari.tulos == "aarre")
+            {
+                kartta.p = tarkistus.kartta.p;
+                //kartta.p = kartta.p2;
+                kartta.p = tarkistus.SetKuoppa(sankari.x, sankari.y);
+            }
             sankaritar.Update(gameTime);
             //if(Rectangle.Intersect(sankari.rect, sankaritar.rect) !Empty) ;
             //Rectangle.Empty
             Rectangle r = new Rectangle();
             r = Rectangle.Intersect(sankari.rect, sankaritar.rect);
             //if (r != Rectangle.Empty) collisionDetected = true;
-            //if (r != Rectangle.Empty) collisionDetected = true;
-            if (r.Width > 1 || r.Height > 1)
+            if (r != Rectangle.Empty) //collisionDetected = true;
+            //if (r.Width > 1 || r.Height > 1)
             {
                 collisionDetected = true;
                 pixelCollision =  cs.Check(GraphicsDevice, ritari_anim, prinsessa, sankari.paikka, sankaritar.paikka, sankari.rect);
@@ -225,13 +229,21 @@ namespace Point1
                 //Console.WriteLine("r.Width = " + r.Width);
                 //Console.WriteLine("r.Height = " + r.Height);
             }
+            if (newKeyboardState.IsKeyDown(Keys.I))
+            {
+                oc.LuoPrinsessa();
+                oc.LisaaPrinsessa();
 
-            oldKeyboardState = newKeyboardState;   //tallenna vanha tila, jos tarpeen
+            }
+
+                oldKeyboardState = newKeyboardState;   //tallenna vanha tila, jos tarpeen
+                lastMouseState = curMouseState;
+
             if (curMouseState.LeftButton == ButtonState.Pressed) // && lastMouseState.LeftButton == ButtonState.Released)
             {
+                Console.WriteLine("Hiiren nappulaa painettu! ");
                 Point mousePositionPoint = curMouseState.Position;
-
-                Rectangle mouseRect = new Rectangle(mousePositionPoint, new Point(300, 100));
+                Rectangle mouseRect = new Rectangle(mousePositionPoint, new Point(30, 30));
                 //Vector2 mousePos = mousePositionPoint.ToVector2();
                 //Rectangle mouseRect = new Rectangle()
                 if(mouseRect.Intersects(button))
@@ -242,7 +254,7 @@ namespace Point1
             }
             //Rectangle Button = new Rectangle(880, 80, 300, 100);
 
-
+            curMouseState = Mouse.GetState();
             lastMouseState = curMouseState;
 
             //muuta logiikkaa
@@ -303,32 +315,36 @@ namespace Point1
 
             spriteBatch.Begin();
 
-            if (!collisionDetected)
-            {
-              spriteBatch.DrawString(omaFontti, viesti4, alkupaikka4, textColor); //tekstin tulostus
-            }
+            //if (!collisionDetected)
+            //{
+            //  spriteBatch.DrawString(omaFontti, viesti4, alkupaikka4, textColor); //tekstin tulostus
+            //}
             //*/
 
-            if(collisionDetected)
+            if(collisionDetected) viesti4 = "TORMAYS HAVAITTU!";
             {
                 ///*
-                if (collisionDetected) {
-                    viesti4 = "TORMAYS HAVAITTU!";
-                }
+                
+                    
+                
                 if (pixelCollision)
                 {
                     viesti4 = "PIKSELITORMAYS!";
-                    spriteBatch.Draw(cs.uusi, new Vector2(400f, 400f), Color.White);
-                    spriteBatch.Draw(cs.uusiGhost, new Vector2(400f, 200f), Color.White);
+                    spriteBatch.Draw(cs.uusi, new Vector2(1400f, 400f), Color.White);
+                    spriteBatch.Draw(cs.uusiGhost, new Vector2(1400f, 200f), Color.White);
+                    
                 }
-
-                alkupaikka4 = new Vector2(20f, 20f);
-                spriteBatch.DrawString(omaFontti, viesti4, alkupaikka4, textColor); //tekstin tulostus
-                sankaritar.viestilaskuri--;
-                if (sankaritar.viestilaskuri < 0)
+                if (collisionDetected || pixelCollision)
                 {
-                    sankaritar.viestilaskuri = 30; collisionDetected = false;
-                    pixelCollision = false;
+                    alkupaikka4 = new Vector2(20f, 20f);
+                    spriteBatch.DrawString(omaFontti, viesti4, alkupaikka4, textColor); //tekstin tulostus
+                    sankaritar.viestilaskuri--;
+                    if (sankaritar.viestilaskuri < 0)
+                    {
+                        sankaritar.viestilaskuri = 30; collisionDetected = false;
+                        pixelCollision = false;
+                        viesti4 = "LOPETUS = ESC ";
+                    }
                 }
                 //*/
             }
@@ -367,12 +383,26 @@ namespace Point1
             sankaritar.Draw(gameTime);
             sankari.Draw(gameTime);
 
+            //oc.psList.ForEach(Draw(gameTime));
 
+            //oc.psList.ForEach.BeginDraw();
+            //oc.psList.ForEach<Prinsessa>.Draw();
+            List<Prinsessa> list = oc.psList;
 
-
-
+            foreach (Prinsessa s in list)
+            {
+                // process
+                s.Draw(gameTime);
+                s.Liiku();
+                s.Update(gameTime);
+            }
 
             base.Draw(gameTime);
         }
+
+        //private Action<Hahmo> Draw()
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

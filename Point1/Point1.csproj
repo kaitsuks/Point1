@@ -83,6 +83,7 @@
     <Compile Include="Kartta.cs" />
     <Compile Include="KiviPala.cs" />
     <Compile Include="Miekka.cs" />
+    <Compile Include="ObjectCreator.cs" />
     <Compile Include="OhjeScreen.cs" />
     <Compile Include="Pala.cs" />
     <Compile Include="Prinsessa.cs" />
@@ -105,6 +106,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\explosion-02.mp3" />
+    <Content Include="Content\Miekka_short_alpha.png" />
     <Content Include="Content\Prinsessa_animaatio1.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
