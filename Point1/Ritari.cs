@@ -17,7 +17,7 @@ namespace Point1
         Miekka miekka; //bool? Miekka-luokan ilmentymä?, int = miekan kunto?
         private KeyboardState oldKeyboardState;
 
-        //public SpriteBatch spriteBatch;
+        public new SpriteBatch spriteBatch;
         BoundsCheck bc;
 
         public Texture2D prinsessa; //spritesheet, 4 kuvaa a 80x120
@@ -59,9 +59,9 @@ namespace Point1
 
             public void InitRitari()
         {
-            prinsessa = new Texture2D(GraphicsDevice, 800, 600);
+            //prinsessa = new Texture2D(GraphicsDevice, 800, 600);
             ritari_anim = new Texture2D(GraphicsDevice, 800, 600);
-            //spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
             paikka = new Vector2(300f, 580f);
             tarkistus = new Tarkistus();
             aarre = Game1.Instance.Content.Load<Texture2D>("Miekka_short_alpha");

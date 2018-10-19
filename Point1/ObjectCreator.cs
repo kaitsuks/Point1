@@ -8,19 +8,20 @@ using System.Threading.Tasks;
 
 namespace Point1
 {
-    class ObjectCreator // : DrawableGameComponent
+    class ObjectCreator : DrawableGameComponent
     {
         public Prinsessa ps;
         public List<Prinsessa> psList = new List<Prinsessa>();
-        public Game game;
+        //public Game game;
         public int princessCount;
         Random rnd;
+        private readonly Game game;
 
-        //public ObjectCreator(Game game) : base(game)
-        public ObjectCreator()
+        public ObjectCreator(Game game) : base(game)
+        //public ObjectCreator()
         {
             //spriteBatch = new SpriteBatch(GraphicsDevice);
-            game = new Game();
+            //game = new Game();
             rnd = new Random();
         }
 

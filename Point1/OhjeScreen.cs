@@ -42,10 +42,10 @@ namespace Point1
              viesti2 = "Suunnanmuutos: B ja F, nopeus M ja L";
             alkupaikka2 = omaFontti.MeasureString(viesti2);
             spriteBatch.DrawString(omaFontti, viesti2, new Vector2((naytonLeveys - alkupaikka2.X) / 2, naytonKorkeus / 2 +200 + 40), textColor); //tekstin tulostus
-              viesti3 = "Ylös ja alas: Yla- ja alanuoli. Rotaatiot: E, R, T, Z, X";
+              viesti3 = "Ylos ja alas: Yla- ja alanuoli. Rotaatiot: E, R, T, Z, X";
             alkupaikka3 = omaFontti.MeasureString(viesti3);
             spriteBatch.DrawString(omaFontti, viesti3, new Vector2((naytonLeveys - alkupaikka3.X) / 2, naytonKorkeus / 2 +200 + 80), textColor); //tekstin tulostus
-            viesti4 = "Lisää prinsessoja: I - varo, nopea näpäytys!";
+            viesti4 = "Lisaa prinsessoja: I - varo, nopea napaytys!";
             alkupaikka4 = omaFontti.MeasureString(viesti4);
             spriteBatch.DrawString(omaFontti, viesti4, new Vector2((naytonLeveys - alkupaikka3.X) / 2, naytonKorkeus / 2 + 200 + 120), textColor); //tekstin tulostus
 

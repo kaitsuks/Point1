@@ -35,8 +35,8 @@ namespace Point1
         int naytonKorkeus;
 
         private KeyboardState oldKeyboardState;
-        private MouseState curMouseState;
-        private MouseState lastMouseState;
+        //private MouseState newMouseState;
+        private MouseState oldMouseState;
         
 
         bool bOhjeet = false;
@@ -82,13 +82,16 @@ namespace Point1
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             
-            this.IsMouseVisible = true;
+            IsMouseVisible = true;
             cs = new CollisionChecker();
             sounder = new Sounder();
             //am = new Automove();
-            Mouse.PlatformSetCursor(MouseCursor.Arrow);
+            //Mouse.PlatformSetCursor(MouseCursor.Arrow);
+            //Mouse.GetState(this)
+            //Mouse
+            Mouse.PlatformSetCursor(MouseCursor.Hand);
             Instance = this;
-            oc = new ObjectCreator();
+            oc = new ObjectCreator(this);
         }
 
 
@@ -101,7 +104,7 @@ namespace Point1
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            oc.game = this;
+            //oc.game = this;
             tarkistus = new Tarkistus();
             cs.Init();
             sounder.InitSounder();
@@ -169,7 +172,7 @@ namespace Point1
 
         public void LoadGraphics()
         {
-            sankaritar.prinsessa = this.prinsessa;
+            //sankaritar.prinsessa = this.prinsessa;
             sankari.ritari_anim = this.ritari_anim;
             gs1.Initialize();
             //gs1.taustakuva = taustakuva2;
@@ -195,9 +198,25 @@ namespace Point1
                 Exit();
             bOhjeet = false;
             //haetaan hiiren tila
-            curMouseState = Mouse.GetState();
-            //käsittelee näppäimistön tilan 
-            KeyboardState newKeyboardState = Keyboard.GetState();
+            //newMouseState = Mouse.GetState();
+            MouseState newMouseState = Mouse.GetState();
+            oldMouseState = newMouseState;
+
+            if (newMouseState.LeftButton == ButtonState.Pressed) // && oldMouseState.LeftButton == ButtonState.Released)
+            {
+                Console.WriteLine("Hiiren nappulaa painettu! ");
+                Point mousePositionPoint = newMouseState.Position;
+                Rectangle mouseRect = new Rectangle(mousePositionPoint, new Point(30, 30));
+                //Vector2 mousePos = mousePositionPoint.ToVector2();
+                //Rectangle mouseRect = new Rectangle()
+                if (mouseRect.Intersects(button))
+                {
+
+                    bOhjeet = true;
+                }
+            }
+                //käsittelee näppäimistön tilan 
+                KeyboardState newKeyboardState = Keyboard.GetState();
             collisionDetected = false;
             pixelCollision = false;
             sankari.Update(gameTime);
@@ -237,25 +256,13 @@ namespace Point1
             }
 
                 oldKeyboardState = newKeyboardState;   //tallenna vanha tila, jos tarpeen
-                lastMouseState = curMouseState;
 
-            if (curMouseState.LeftButton == ButtonState.Pressed) // && lastMouseState.LeftButton == ButtonState.Released)
-            {
-                Console.WriteLine("Hiiren nappulaa painettu! ");
-                Point mousePositionPoint = curMouseState.Position;
-                Rectangle mouseRect = new Rectangle(mousePositionPoint, new Point(30, 30));
-                //Vector2 mousePos = mousePositionPoint.ToVector2();
-                //Rectangle mouseRect = new Rectangle()
-                if(mouseRect.Intersects(button))
-                {
-
-                    bOhjeet = true;
-                }
-            }
+            
+            
             //Rectangle Button = new Rectangle(880, 80, 300, 100);
 
-            curMouseState = Mouse.GetState();
-            lastMouseState = curMouseState;
+            //newMouseState = Mouse.GetState();
+            //oldMouseState = newMouseState;
 
             //muuta logiikkaa
 
@@ -284,9 +291,9 @@ namespace Point1
 
             if (bOhjeet)
             {
-                if (!songPlayed) { sounder.Sing(); songPlayed = true; }
-                else
-                    songPlayed = false;
+                //if (!songPlayed) { sounder.Sing(); songPlayed = true; }
+                //else
+                //    songPlayed = false;
 
                 //spriteBatch.Draw(taustakuva2, new Rectangle(0, 0, naytonLeveys, naytonKorkeus), Color.White);
                 //spriteBatch.Draw(gs1.taustakuva, new Rectangle(0, 0, naytonLeveys, naytonKorkeus), Color.White);
@@ -383,10 +390,7 @@ namespace Point1
             sankaritar.Draw(gameTime);
             sankari.Draw(gameTime);
 
-            //oc.psList.ForEach(Draw(gameTime));
-
-            //oc.psList.ForEach.BeginDraw();
-            //oc.psList.ForEach<Prinsessa>.Draw();
+            
             List<Prinsessa> list = oc.psList;
 
             foreach (Prinsessa s in list)

@@ -16,7 +16,8 @@ namespace Point1
 
         //Miekka miekka; //bool? Miekka-luokan ilmentymä?, int = miekan kunto?
         //private KeyboardState oldKeyboardState;
-        //public SpriteBatch spriteBatch;
+        GraphicsDevice gd;
+        public new SpriteBatch spriteBatch;
         Automove am;
         public Texture2D prinsessa; //spritesheet, 4 kuvaa a 80x120
         
@@ -51,9 +52,12 @@ namespace Point1
 
         public void InitPrinsessa()
         {
-            prinsessa = new Texture2D(GraphicsDevice, 800, 600);
+            //gd = new GraphicsDevice(GraphicsDevice.Adapter, GraphicsProfile.HiDef, PresentationParameters( );
+            gd = Game1.Instance.GraphicsDevice;
+            //GraphicsDevice.Adapter
+            //prinsessa = new Texture2D(GraphicsDevice, 800, 600);
 
-            //spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(gd);
             paikka = new Vector2(200f, 257f);
             am = new Automove();
             prinsessa = Game1.Instance.Content.Load<Texture2D>("Prinsessa_animaatio1");
