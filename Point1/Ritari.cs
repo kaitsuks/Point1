@@ -276,6 +276,10 @@ namespace Point1
 
             oldKeyboardState = newKeyboardState;
 
+            GP.sankaripaikka = this.paikka;
+            GP.sankarirect = this.rect;
+            this.intTerveys = GP.sankariterveys;
+
             base.Update(gameTime);
         }
 
@@ -314,7 +318,7 @@ namespace Point1
             if (tulos == "O") tulos = " HIEKKAA ";
             if (tulos == "V") tulos = " SUKLAATA ";
             spriteBatch.DrawString(omaFontti, " " + x.ToString() + " , " + y.ToString(), new Vector2(20, 25), Color.Red, 0f, new Vector2(0, 0), 3f, SpriteEffects.None, 0f);
-            spriteBatch.DrawString(omaFontti, " RUUDUSSA " + tulos, new Vector2(300, 25), Color.Black, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(omaFontti, " TERVEYS " + GP.sankariterveys, new Vector2(300, 25), Color.Black, 0f, new Vector2(0, 0), 2f, SpriteEffects.None, 0f);
             if (tulos == "aarre")
             {
                 aarreLoytynyt = true;

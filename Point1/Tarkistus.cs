@@ -33,7 +33,7 @@ namespace Point1
             if ((_y * 30 + _x) < kartta.p.Length)
             {
                 string tulos = kartta.p.Substring(_y * 30 + _x, 1);
-                Console.WriteLine("kartan stringi on  " + kartta.p.Substring(_y * 30 + _x, 1));
+                //Console.WriteLine("kartan stringi on  " + kartta.p.Substring(_y * 30 + _x, 1));
                 if (kartta.p2.Substring(_y * 30 + _x, 1) == "A") tulos = "aarre";
                 return tulos;
             }

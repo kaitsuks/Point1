@@ -15,6 +15,9 @@ namespace Point1
         //public Game game;
         public int princessCount;
         Random rnd;
+        private Zombi zo;
+        public List<Zombi> zoList = new List<Zombi>();
+        private int zombiCount;
         private readonly Game game;
 
         public ObjectCreator(Game game) : base(game)
@@ -31,7 +34,20 @@ namespace Point1
             ps.paikka = new Vector2(rnd.Next(100, 500), rnd.Next(100, 500));
             psList.Add(ps);
             princessCount++;
-            Console.WriteLine("Lisätty prinsessa nr. " + princessCount);
+            //Console.WriteLine("Lisätty prinsessa nr. " + princessCount);
+
+
+        }
+
+        public void LisaaZombi()
+        {
+            zo = new Zombi(game);
+            zo.paikka = new Vector2(rnd.Next(100, 500), rnd.Next(100, 500));
+            Zombi.zombiNr++;
+            zo.numero = Zombi.zombiNr;
+            zoList.Add(zo);
+            zombiCount++;
+            Console.WriteLine("Lisätty Zombi nr. " + zombiCount);
 
 
         }

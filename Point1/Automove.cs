@@ -20,9 +20,13 @@ namespace Point1
         int prinsessanHidastaja = 0;
         int prinsessanHidastajanraja = 10;
         Random rnd;
+        Vector2 paikka;
 
-        public Automove()
+        public Automove(Vector2 paikka)
         {
+            this.paikka = paikka;
+            princessX = (int)paikka.X;
+            princessY = (int)paikka.Y;
             rnd = new Random();
             bc = new BoundsCheck();
             cc = new CollisionCheck();

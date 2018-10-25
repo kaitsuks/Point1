@@ -75,6 +75,7 @@ namespace Point1
         */
 
         public static Game1 Instance;
+
         private bool songPlayed;
 
         public Game1()
@@ -204,7 +205,7 @@ namespace Point1
 
             if (newMouseState.LeftButton == ButtonState.Pressed) // && oldMouseState.LeftButton == ButtonState.Released)
             {
-                Console.WriteLine("Hiiren nappulaa painettu! ");
+                //Console.WriteLine("Hiiren nappulaa painettu! ");
                 Point mousePositionPoint = newMouseState.Position;
                 Rectangle mouseRect = new Rectangle(mousePositionPoint, new Point(30, 30));
                 //Vector2 mousePos = mousePositionPoint.ToVector2();
@@ -250,8 +251,9 @@ namespace Point1
             }
             if (newKeyboardState.IsKeyDown(Keys.I))
             {
-                oc.LuoPrinsessa();
-                oc.LisaaPrinsessa();
+                //oc.LuoPrinsessa();
+                //oc.LisaaPrinsessa();
+                oc.LisaaZombi();
 
             }
 
@@ -390,16 +392,27 @@ namespace Point1
             sankaritar.Draw(gameTime);
             sankari.Draw(gameTime);
 
-            
-            List<Prinsessa> list = oc.psList;
 
-            foreach (Prinsessa s in list)
+            //List<Prinsessa> list = oc.psList;
+
+            //foreach (Prinsessa s in list)
+            //{
+            //    // process
+            //    s.Draw(gameTime);
+            //    s.Liiku();
+            //    s.Update(gameTime);
+            //}
+            //List<Prinsessa> list = oc.psList;
+
+            List<Zombi> list = oc.zoList;
+            foreach (Zombi s in list)
             {
                 // process
                 s.Draw(gameTime);
                 s.Liiku();
                 s.Update(gameTime);
             }
+            //List<Zombi> list = oc.zoList;
 
             base.Draw(gameTime);
         }

@@ -34,7 +34,7 @@ namespace Point1
         public Kartta(Game game) : base(game)
         {
             //012345678901234567890123456789
-            p = "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";//0
+            p =  "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";//0
             p += "XVVVVVVVOOOOOOOOOOOOOOOOZOOOOX";//1
             p += "XXOOOOOOOOOOOOOOOOOOOOOOOOOOOX";//2
             p += "XXOOOOOOOOOOOOOOOOOOOOOOOOOOOX";//3
@@ -66,7 +66,7 @@ namespace Point1
             p += "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";//29
             p += "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX";//30
 
-            //012345678901234567890123456789
+                 //012345678901234567890123456789
             p2 =  "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO";//0
             p2 += "OOOOOOOOOOOOOOOOOOOOOOOOOOOOOO";//1
             p2 += "OOOOOOOOOOOOOOOOOAOOOOOOOOOOOO";//2
@@ -134,7 +134,7 @@ namespace Point1
             string s = "";
             int haku = 0;
             //string tulos = "";
-            Console.WriteLine("Merkkijonon p pituus == " + p.Length);
+            //Console.WriteLine("Merkkijonon p pituus == " + p.Length);
             for (int i = 0; i < kkork; i++)
                 //for (int i = kkork; i > 0; i--)
                 {
@@ -173,7 +173,7 @@ namespace Point1
                 //Console.WriteLine("  " + );
             }
             //Console.WriteLine("Tulos == " + tulos);
-            Console.WriteLine("haku == " + haku);
+            //Console.WriteLine("haku == " + haku);
 
             return true;
         }

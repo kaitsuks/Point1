@@ -64,10 +64,13 @@
     <ManifestKeyFile>Point1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
-    <GenerateManifests>true</GenerateManifests>
+    <GenerateManifests>false</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <TargetZone>LocalIntranet</TargetZone>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Automove.cs" />
@@ -93,6 +96,7 @@
     <Compile Include="Sounder.cs" />
     <Compile Include="Tarkistus.cs" />
     <Compile Include="VesiPala.cs" />
+    <Compile Include="Zombi.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
@@ -102,6 +106,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\AnimOgre128x512.png" />
     <Content Include="Content\explosion-01.wav">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
