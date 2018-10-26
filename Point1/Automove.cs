@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Point1
 {
-    class Automove
+    public class Automove
     {
         private int intPrincessNopeus;
 
@@ -48,6 +48,137 @@ namespace Point1
                 if (princessSuunta > 8) princessSuunta = 1;
                 if (princessSuunta < 1) princessSuunta = 8;
 
+            }
+
+
+            if (princessSuunta == 1)
+            { //KOILLINEN
+                int bcx = princessX;
+                int bcy = princessY;
+                bcx += intPrincessNopeus;
+                bcy -= intPrincessNopeus;
+                if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy))
+                {
+                    princessX += intPrincessNopeus;
+                    princessY -= intPrincessNopeus;
+                }
+            }
+            if (princessSuunta == 2)
+            //if (ita)
+            { //ITÄ
+                int bcx = princessX;
+                int bcy = princessY;
+                bcx += intPrincessNopeus;
+                //bcy -= intPrincessNopeus;
+                if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy))
+                {
+                    princessX += intPrincessNopeus;
+                    //princessY--;
+                }
+            }
+            if (princessSuunta == 3)
+            //if (kaakko)
+            { //KAAKKO
+                int bcx = princessX;
+                int bcy = princessY;
+                bcx += intPrincessNopeus;
+                bcy += intPrincessNopeus;
+                if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy))
+                {
+                    princessX += intPrincessNopeus;
+                    princessY += intPrincessNopeus;
+                }
+            }
+
+            if (princessSuunta == 4)
+            //if (etela)
+            { //ETELÄ
+                int bcx = princessX;
+                int bcy = princessY;
+                //bcx += intPrincessNopeus;
+                bcy += intPrincessNopeus;
+                if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy))
+                {
+                    //princessX;
+                    princessY += intPrincessNopeus;
+                }
+            }
+            if (princessSuunta == 5)
+            //if (lounas)
+            { //LOUNAS
+                int bcx = princessX;
+                int bcy = princessY;
+                bcx -= intPrincessNopeus;
+                bcy += intPrincessNopeus;
+                if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy))
+                {
+                    princessX -= intPrincessNopeus;
+                    princessY += intPrincessNopeus;
+                }
+            }
+            if (princessSuunta == 6)
+            //if (lansi)
+            { //LÄNSI
+                int bcx = princessX;
+                int bcy = princessY;
+                bcx -= intPrincessNopeus;
+                //bcy -= intPrincessNopeus;
+                if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy))
+                {
+                    princessX -= intPrincessNopeus;
+                    //princessY--;
+                }
+            }
+            if (princessSuunta == 7)
+            //if (luode)
+            { //LUODE
+                int bcx = princessX;
+                int bcy = princessY;
+                bcx -= intPrincessNopeus;
+                bcy -= intPrincessNopeus;
+                if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy))
+                {
+                    princessX -= intPrincessNopeus;
+                    princessY -= intPrincessNopeus;
+                }
+            }
+            if (princessSuunta == 8)
+            //if (pohjoinen)
+            { //POHJOINEN
+                int bcx = princessX;
+                int bcy = princessY;
+                //bcx += intPrincessNopeus;
+                bcy -= intPrincessNopeus;
+                if (bc.Check(GP.naytonLeveys, GP.naytonKorkeus, bcx, bcy))
+                {
+                    //princessX++;
+                    princessY -= intPrincessNopeus;
+                }
+            }
+            return new Vector2(princessX, princessY);
+        }
+
+        public Vector2 Wander2(Vector2 paikka)
+        {
+
+            this.paikka = paikka;
+            princessX = (int)paikka.X;
+            princessY = (int)paikka.Y;
+
+            //bc = new BoundsCheck();
+            //cc = new CollisionCheck();
+            //prinsessanHidastaja++;
+            //if (prinsessanHidastaja > prinsessanHidastajanraja)
+            //{
+            //    prinsessanHidastaja = 0;
+            //}
+            //if (prinsessanHidastaja == 0)
+            {
+                intPrincessNopeus = rnd.Next(1, 4);
+                int muutos = rnd.Next(1, 3);
+                if (muutos == 1) princessSuunta++;
+                if (muutos == 2) princessSuunta--;
+                if (princessSuunta > 8) princessSuunta = 1;
             }
 
 

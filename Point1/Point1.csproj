@@ -74,6 +74,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Automove.cs" />
+    <Compile Include="Automove2.cs" />
     <Compile Include="BoundsCheck.cs" />
     <Compile Include="CollisionCheck.cs" />
     <Compile Include="CollisionChecker.cs" />
