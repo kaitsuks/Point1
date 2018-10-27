@@ -14,12 +14,13 @@ namespace Point1
     {
 
         public static int zombiNr;
-        public int numero; //zombin järjestysnumero
+        public int numero { get; set; } //zombin järjestysnumero
+
         //Miekka miekka; //bool? Miekka-luokan ilmentymä?, int = miekan kunto?
         //private KeyboardState oldKeyboardState;
         GraphicsDevice gd;
         public new SpriteBatch spriteBatch;
-        Automove am;
+        Automove2 am;
         public Texture2D prinsessa; //spritesheet, 4 kuvaa a 80x120
         public Texture2D ritari_anim;
         Sounder sounder;
@@ -32,6 +33,8 @@ namespace Point1
         private bool collisionDetected;
         private bool pixelCollision;
         private bool crashPlayed;
+        Random rnd;
+        private int princessSuunta;
 
         //private Func<Prinsessa> luoPrinsessa;
 
@@ -63,12 +66,13 @@ namespace Point1
             gd = Game1.Instance.GraphicsDevice;
             //GraphicsDevice.Adapter
             //prinsessa = new Texture2D(GraphicsDevice, 800, 600);
+            rnd = new Random();
             sounder = new Sounder();
             sounder.InitSounder();
             cs = new CollisionChecker();
             spriteBatch = new SpriteBatch(gd);
             paikka = new Vector2(0f, 0f);
-            am = new Automove(paikka);
+            am = new Automove2(paikka, rnd);
             //prinsessa = Game1.Instance.Content.Load<Texture2D>("Prinsessa_animaatio1");
             prinsessa = Game1.Instance.Content.Load<Texture2D>("AnimOgre128x512");
             ritari_anim = Game1.Instance.Content.Load<Texture2D>("RitariKavely1_4kuvaa");
@@ -76,7 +80,7 @@ namespace Point1
 
         public void Liiku()
         {
-            paikka =  am.Wander();
+            paikka =  am.Wander(paikka, ref princessSuunta);
         }
 
         public override void Update(GameTime gameTime)
@@ -102,7 +106,7 @@ namespace Point1
             r = Rectangle.Intersect(GP.sankarirect, this.rect);
             //if (r != Rectangle.Empty) collisionDetected = true;
             if (r != Rectangle.Empty) //collisionDetected = true;
-                Console.WriteLine("ZOMBITÖRMÄYS rectanglella  " + numero+ " /" + Zombi.zombiNr);
+                //Console.WriteLine("ZOMBITÖRMÄYS rectanglella  " + numero+ " /" + Zombi.zombiNr);
             //if (r.Width > 1 || r.Height > 1)
             {
                 collisionDetected = true;
@@ -111,8 +115,10 @@ namespace Point1
                 if (pixelCollision && !crashPlayed)
                 {
                     sounder.Crash(); crashPlayed = true;
-                    Console.WriteLine("ZOMBITÖRMÄYS pikseleillä " + GP.sankariterveys);
+                    //Console.WriteLine("ZOMBITÖRMÄYS pikseleillä " + GP.sankariterveys);
                     GP.sankariterveys--;
+                    //this.Dispose();
+                    this.elossa = false;
                 }
                 else
                     crashPlayed = false;
@@ -134,9 +140,9 @@ namespace Point1
             string viesti = "Tervehdys!";
             //Vector2 alkupaikka = omaFontti.MeasureString(viesti);
             //spriteBatch.DrawString(omaFontti, viesti, new Vector2((naytonLeveys - alkupaikka.X) / 2, naytonKorkeus / 2), Color.White); //tekstin tulostus
-            //spriteBatch.Draw(ritari_anim, new Rectangle((int) paikka.X, (int) paikka.Y, 160, 240), new Rectangle(ritari_x - 80, 0, 80, 120), Color.White); //koko suurennettu 2-kertaiseksi
+            spriteBatch.Draw(prinsessa, new Rectangle((int) paikka.X, (int) paikka.Y, 32, 48), new Rectangle(ritari_x - 128, 0, 128, 128), Color.White); //koko suurennettu 2-kertaiseksi
             //spriteBatch.Draw(ritari_anim, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White); //spritetsheet-animaatio yksinkertaisesti
-            spriteBatch.Draw(prinsessa, paikka, new Rectangle(ritari_x - 128, 0, 128, 128), Color.White); //spritetsheet-animaatio yksinkertaisesti 
+            //spriteBatch.Draw(prinsessa, paikka, new Rectangle(ritari_x - 128, 0, 128, 128), Color.White); //spritetsheet-animaatio yksinkertaisesti 
             //spriteBatch.Draw(prinsessa, paikka, new Rectangle(ritari_x - 80, 0, 80, 120), Color.White, 0, new Vector2(xpoint, ypoint), 1f, SpriteEffects.None, 0f);
                
             spriteBatch.End();

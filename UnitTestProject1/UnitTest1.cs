@@ -26,13 +26,14 @@ namespace UnitTestProject1
             //Vector2 expected = odotettava tulos
             int input1 = 300; // alkukoordinaatit
             int input2 = 600;
+            int n = 1;
             Vector2 expected = new Vector2(input1, input2);
-            Point1.Automove2 am = new Point1.Automove2(new Vector2(0f, 0f)); //luodaan ko olio
+            Point1.Automove2 am = new Point1.Automove2(new Vector2(0f, 0f), new Random()); //luodaan ko olio
             
             //Act - lisää ensin reference varsinaiseen projektiin! Add reference - projects  Point1
             //Asenna Nugetillä Monogame-paketti jotta saadaan Microsoft.Xna.Framework käyttöön
             // Kutsu parametreillä testattavaa metodia
-            Vector2 actual = am.Wander2(expected);
+            Vector2 actual = am.Wander(expected, ref n);
 
             //Assert - tarkistetaan
             Console.WriteLine("Aletaan testata");

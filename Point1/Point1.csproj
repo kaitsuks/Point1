@@ -85,6 +85,7 @@
     <Compile Include="Hahmo.cs" />
     <Compile Include="HiekkaPala.cs" />
     <Compile Include="Kartta.cs" />
+    <Compile Include="KarttaData.cs" />
     <Compile Include="KiviPala.cs" />
     <Compile Include="Miekka.cs" />
     <Compile Include="ObjectCreator.cs" />

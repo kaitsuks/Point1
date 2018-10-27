@@ -8,17 +8,21 @@ using Point1;
 
 namespace Point1
 {
-    class Tarkistus
+    public class Tarkistus
     {
         public string _suunta;
-        public Kartta kartta;
+        public string suunta = "right";
+        //public Kartta kartta;
+        public KarttaData k = new KarttaData();
         //public Vector2 _paikka;
         public int _x;
         public int _y;
+        public int x;
+        public int y;
 
         public Tarkistus()
         {
-           // kartta = new Kartta(game);
+           //kartta = new Kartta(game);
            // kartta.teeKartta();
         }
 
@@ -30,17 +34,17 @@ namespace Point1
             _suunta = suunta;
             _x = x;
             _y = y;
-            if ((_y * 30 + _x) < kartta.p.Length)
+            if ((_y * 30 + _x) < k.p.Length)
             {
-                string tulos = kartta.p.Substring(_y * 30 + _x, 1);
-                //Console.WriteLine("kartan stringi on  " + kartta.p.Substring(_y * 30 + _x, 1));
-                if (kartta.p2.Substring(_y * 30 + _x, 1) == "A") tulos = "aarre";
+                string tulos = k.p.Substring(_y * 30 + _x, 1);
+                //Console.WriteLine("kartan stringi on  " + k.p.Substring(_y * 30 + _x, 1));
+                if (k.p2.Substring(_y * 30 + _x, 1) == "A") tulos = "aarre";
                 return tulos;
             }
             else
                 return "Ulkona kartalta";
 
-            //if (kartta.p.Substring(_x * _y, 1) == "X")
+            //if (k.p.Substring(_x * _y, 1) == "X")
             /*
            return false;
            else
@@ -53,11 +57,11 @@ namespace Point1
             _x = x;
             _y = y;
             //
-            string uusi; // = kartta.p;
-            //uusi = kartta.p.Insert(_y * 30 + _x, "A");
+            string uusi; // = k.p;
+            //uusi = k.p.Insert(_y * 30 + _x, "A");
             //kartta.p.
             //String toka = 
-            StringBuilder toka = new StringBuilder(kartta.p);
+            StringBuilder toka = new StringBuilder(k.p);
             toka.Replace("O", "A", _y * 30 + _x, 1);
             uusi = toka.ToString();
             return uusi;
@@ -66,16 +70,24 @@ namespace Point1
 
         public bool CheckObstacles(string suunta, int x, int y)
         {
-            if (suunta == "right" && kartta.p.Substring((y * 30) + x + 1, 1) == "X")
+            this.suunta = suunta;
+            this.x = x;
+            this.y = y;
+            if (y < 1) y = 1; 
+            int h = (y * 30) + x + 1;
+            if (suunta == "right" && k.p.Substring(h, 1) == "X")
                 return false;
             else
-            if (suunta == "left" && kartta.p.Substring((y * 30) + x - 1, 1) == "X")
+                h = (y * 30) + x - 1;
+            if (suunta == "left" && k.p.Substring(h, 1) == "X")
                 return false;
             else
-                if (suunta == "up" && kartta.p.Substring((y -1) * 30  + x, 1) == "X")
+                h = (y - 1) * 30 + x;
+            if (suunta == "up" && k.p.Substring(h, 1) == "X")
                 return false;
             else
-                if (suunta == "down" && kartta.p.Substring((y +1) * 30 + x, 1) == "X")
+                h = (y + 1) * 30 + x;
+                if (suunta == "down" && k.p.Substring(h, 1) == "X")
                 return false;
             else
                 return true;

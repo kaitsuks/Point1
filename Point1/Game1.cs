@@ -19,7 +19,7 @@ namespace Point1
         GameScreen gs1;
         OhjeScreen ohjeruutu;
         Sounder sounder;
-        //Automove am;
+        Automove2 am;
         string tulos = "";
 
         Texture2D prinsessa; //spritesheet, 4 kuvaa a 80x120
@@ -50,7 +50,7 @@ namespace Point1
         string viesti0, viesti, viesti2, viesti3, viesti4;
         Vector2 alkupaikka0, alkupaikka, alkupaikka2, alkupaikka3, alkupaikka4;
         
-        Random rnd; //satunnaisluku
+        Random rnd = new Random(); //satunnaisluku
 
         bool collisionDetected;
         bool pixelCollision;
@@ -86,7 +86,7 @@ namespace Point1
             IsMouseVisible = true;
             cs = new CollisionChecker();
             sounder = new Sounder();
-            //am = new Automove();
+            am = new Automove2(new Vector2(0f, 0f), rnd);
             //Mouse.PlatformSetCursor(MouseCursor.Arrow);
             //Mouse.GetState(this)
             //Mouse
@@ -142,8 +142,9 @@ namespace Point1
             viesti4 = "LOPETUS = ESC       ";
             alkupaikka4 = new Vector2(20f, 20f);
             button = new Rectangle(1200, 750, 300, 100);
-            tarkistus.kartta = this.kartta;
+            //tarkistus.kartta = this.kartta;
             sankari.tarkistus = this.tarkistus;
+            am.tarkistus = this.tarkistus;
 
             base.Initialize();
         }
@@ -224,9 +225,9 @@ namespace Point1
             sankaritar.Liiku();
             if (sankari.tulos == "aarre")
             {
-                kartta.p = tarkistus.kartta.p;
-                //kartta.p = kartta.p2;
-                kartta.p = tarkistus.SetKuoppa(sankari.x, sankari.y);
+                //kartta.p = tarkistus.kartta.p;
+                ////kartta.p = kartta.p2;
+                //kartta.p = tarkistus.SetKuoppa(sankari.x, sankari.y);
             }
             sankaritar.Update(gameTime);
             //if(Rectangle.Intersect(sankari.rect, sankaritar.rect) !Empty) ;
@@ -242,7 +243,7 @@ namespace Point1
                 if (pixelCollision && !crashPlayed)
                 {
                     sounder.Crash(); crashPlayed = true;
-                    Console.WriteLine("RÄJÄHDYSEFEKTI!");
+                    //Console.WriteLine("RÄJÄHDYSEFEKTI!");
                 }
                 else
                     crashPlayed = false;
@@ -403,17 +404,34 @@ namespace Point1
             //    s.Update(gameTime);
             //}
             //List<Prinsessa> list = oc.psList;
-
+            int nr = 0;
+            bool destroy = false;
+            
             List<Zombi> list = oc.zoList;
             foreach (Zombi s in list)
             {
                 // process
+                
                 s.Draw(gameTime);
                 s.Liiku();
                 s.Update(gameTime);
+                if (!s.elossa) { nr = list.IndexOf(s); destroy = true; }
             }
             //List<Zombi> list = oc.zoList;
-
+            //oc.zoList.Remove(nr);
+            //if (nr > 0 && nr < list.Count+1)
+            if (destroy) { 
+                if (nr < list.Count + 1)
+                {
+                    //oc.zoList.RemoveAt(nr - 1);
+                    Console.WriteLine("ZOMBI TUHOTTU NR " + nr);
+                    //int tuhottava = oc.zoList.FindIndex(item => nr.CompareTo(item.numero) == 0);
+                    //int tuhottava = oc.zoList.Find(item => item.numero == nr).numero;
+                    //int tuhottava = oc.zoList.FindIndex(item => item.numero == nr);
+                    oc.zoList.RemoveAt(nr);
+                    //oc.zoList.
+                }
+            }
             base.Draw(gameTime);
         }
 
