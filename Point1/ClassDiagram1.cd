@@ -1,0 +1,179 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Point1.Automove" Collapsed="true">
+    <Position X="7.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAEOAAAAAAAIIABAAgAAAAAAAAgAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Automove.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.Automove2" Collapsed="true">
+    <Position X="9.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAEOABAAAAAIJABAAgAAAAAAAAgAAAEAABgAAAAABA=</HashCode>
+      <FileName>Automove2.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.BoundsCheck" Collapsed="true">
+    <Position X="11.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>BoundsCheck.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.CollisionCheck" Collapsed="true">
+    <Position X="13" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>CollisionCheck.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.CollisionChecker" Collapsed="true">
+    <Position X="7.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEgAgAAAjAAAIACSAAAAAAAABAAQAAACAAAAAAA=</HashCode>
+      <FileName>CollisionChecker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.Esine" Collapsed="true">
+    <Position X="3.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAACAAAAAAAAgAAAAAQAAAAAAABAAAAAA=</HashCode>
+      <FileName>Esine.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.Game1" Collapsed="true">
+    <Position X="9.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQGUUBACAAQA5wBQAIACAC/AAgMAggMTBAFCAKkAQY=</HashCode>
+      <FileName>Game1.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.GameScreen" Collapsed="true">
+    <Position X="0.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAwAAAAIAAACCAQgAAAAAAAAAAAIAAAQ=</HashCode>
+      <FileName>GameScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.GP" Collapsed="true">
+    <Position X="11.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQEAAAAAACCAAAAAAAAAAAAAAAAACA=</HashCode>
+      <FileName>GP.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.Hahmo" Collapsed="true">
+    <Position X="3" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAEAAAAAAAQAAAAJAIACKEAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Hahmo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.HiekkaPala" Collapsed="true">
+    <Position X="0.75" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>HiekkaPala.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.Kartta" Collapsed="true">
+    <Position X="13" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAEAAAABAASAAAAMAAACDAAkQAAAMoEAAABIAgAQ=</HashCode>
+      <FileName>Kartta.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.KarttaData" Collapsed="true">
+    <Position X="7.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>KarttaData.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.KiviPala" Collapsed="true">
+    <Position X="3" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>KiviPala.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.Miekka" Collapsed="true">
+    <Position X="3.5" Y="7.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>Miekka.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.ObjectCreator" Collapsed="true">
+    <Position X="9.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAEAAAAAAQAAAQAACAAAAAIAgAAAAAoAAAIAAAAEAA=</HashCode>
+      <FileName>ObjectCreator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.OhjeScreen" Collapsed="true">
+    <Position X="0.5" Y="8" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACAAAAgABAAAACAAdAAAEAgAACAAAAAAAAAY=</HashCode>
+      <FileName>OhjeScreen.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.Pala" Collapsed="true">
+    <Position X="3" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAIAAIAAAAAAAAAAAAAQAQAAAAQgEAAAAQ=</HashCode>
+      <FileName>Pala.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.Prinsessa" Collapsed="true">
+    <Position X="3" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEAEIAgAAAApABEAAAAAAAAACAAAAIAAAAAIAgAAA=</HashCode>
+      <FileName>Prinsessa.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.Program" Collapsed="true">
+    <Position X="11.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>Program.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.Ritari" Collapsed="true">
+    <Position X="0.75" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAQAKEIAgAAAAoBgUAAIEBACAACAAAAMNABkEEAgAAA=</HashCode>
+      <FileName>Ritari.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.Sounder" Collapsed="true">
+    <Position X="13" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAQEAIAAAAAQACAAAAAAAAAAAAAAAABAAAAA=</HashCode>
+      <FileName>Sounder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.Tarkistus" Collapsed="true">
+    <Position X="7.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAgIAAQAABAAAAAABAAAABAAAAAIgABgBAAAAAA=</HashCode>
+      <FileName>Tarkistus.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.VesiPala" Collapsed="true">
+    <Position X="5.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>VesiPala.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Point1.Zombi" Collapsed="true">
+    <Position X="5.25" Y="5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEQEIAgAAAApwBUAAAAAAAAACAEAAIABEAAIQAAQA=</HashCode>
+      <FileName>Zombi.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
